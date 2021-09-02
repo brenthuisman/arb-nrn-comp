@@ -129,7 +129,7 @@ def run_nrn(setup, model, duration, v_init, temperature):
 
 
 def run_arb(setup, model, duration, v_init, temperature):
-    cell = model.cable_cell(Vm=v_init)
+    cell = model.cable_cell()
     probe = arbor.cable_probe_membrane_voltage('(proximal (tag 1))')
     recipe = single_recipe(cell, [probe], v_init, temperature)
     context = arbor.context()
