@@ -120,6 +120,8 @@ def run_nrn(setup, model, duration, v_init, temperature):
     neuron_cell = model()
     neuron_cell.record_soma()
     neuron_time = p.time
+    p.dt = 0.025
+    p.cvode.active(0)
     p.celsius = temperature - 273.15
     p.finitialize(v_init)
     p.continuerun(duration)
