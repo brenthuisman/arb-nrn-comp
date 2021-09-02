@@ -12,7 +12,7 @@ class single_recipe(arbor.recipe):
         self.the_cell = cell
         self.the_probes = probes
         self.the_props = arbor.neuron_cable_properties()
-        self.the_props.set_property(Vm=-65, tempK=300, rL=35.4, cm=0.01)
+        self.the_props.set_property(Vm=-65, tempK=305.15, rL=35.4, cm=0.01)
         self.the_props.set_ion(ion='na', int_con=10,   ext_con=140, rev_pot=50)
         self.the_props.set_ion(ion='k',  int_con=54.4, ext_con=2.5, rev_pot=-77)
         self.the_props.set_ion(ion='ca', int_con=0.0001, ext_con=2, rev_pot=132.5)
@@ -56,8 +56,8 @@ def run_nrn(setup, model, duration, v_init):
     p.dt = 0.025
     p.cvode.active(0)
     p.celsius = 32
-    p.finitialize(-40)
-    p.continuerun(1000)
+    p.finitialize(v_init)
+    p.continuerun(duration)
     return neuron_time, neuron_cell.Vm
 
 
@@ -79,7 +79,7 @@ def run_arb(setup, model, duration, v_init):
     return data[:, 0], data[:, 1]
 
 
-def run_single_model(model, duration=1000, v_init=-40):
+def run_single_model(model, duration=100, v_init=-65):
     print("run_nrn")
     start = time.time()
     nrn_result = run_nrn(None, model, duration, v_init)
@@ -95,15 +95,15 @@ def run_single_model(model, duration=1000, v_init=-40):
     return nrn_result, arb_result
     #return run_nrn(None, model, duration, v_init), run_arb(None, model, duration, v_init)
 
-def run_model_setups(setups, model, duration=1000, v_init=-40):
+def run_model_setups(setups, model, duration=100, v_init=-65):
     result = {}
-    for k, setup in setups.items(): 
+    for k, setup in setups.items():
         print("run_nrn")
         nrn_result = run_nrn(setup, model, duration, v_init)
         print("arb_nrn")
         arb_result = run_arb(setup, model, duration, v_init)
         print("done")
-        result[k] = (nrn_result, arb_result) 
+        result[k] = (nrn_result, arb_result)
     return results
     #return {k: (run_nrn(setup, model, duration, v_init), run_arb(setup, model, duration, v_init)) for k, setup in setups.items()}
 
