@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+import os, sys, warnings
+from types import ModuleType
+from importlib import import_module
+import traceback
+
+# Sets the plotly default theme
+import plotly.io as pio
+pio.templates.default = "simple_white"
+
+sys.path.append(os.path.abspath("plots"))
+path = os.path.abspath(os.path.dirname(__file__))
+formats = ['html', 'eps', 'jpeg', 'jpg', 'pdf', 'png', 'svg', 'webp']
+if len(sys.argv) > 1 and sys.argv[1] in formats:
+    format = "." + sys.argv[1]
+    plots = sys.argv[2:]
+else:
+    plots = sys.argv[1:]
+    format = ".png"
+
+if len(plots) == 0:
+    plots = [f[:-3] for f in os.listdir(os.path.join(path, "plots")) if f.endswith(".py") and not f.startswith("_")]
+
+def with_args(plots):
+    return [(p.split(":")[0], p.split(":")[1:]) for p in plots]
+
+plots = with_args(plots)
+
+def build():
+    t = len(plots)
+    for i, (f, arg) in enumerate(plots):
+        print("Building plot {} {}/{}...".format(f, i, t))
+        plot = import_module("." + f, package="plots")
+        plot.__figname__ = f
+        try:
+            build_figure(plot, arg)
+        except Exception as e:
+            traceback.print_exc()
+    print("Done")
+
+def build_figure(plotting_module, args):
+    fig = plotting_module.plot(*args)
+    if not fig:
+        warnings.warn(f"No figure returned from {plotting_module.__name__}.")
+        return
+    if "meta" in dir(plotting_module):
+        meta = plotting_module.meta
+    else:
+        def meta(*args):
+            return None
+    if isinstance(fig, list) or isinstance(fig, tuple):
+        for i, f in enumerate(fig):
+            _build_figure(plotting_module, f, i, meta(i))
+    elif isinstance(fig, dict):
+        for suffix, f in fig.items():
+            _build_figure(plotting_module, f, suffix, meta(suffix))
+    else:
+        _build_figure(plotting_module, fig, None, meta())
+
+def _build_figure(plotting_module, fig, suffix=None, meta=None):
+    fname = os.path.join(
+        path, "figures", plotting_module.__figname__ + (f"_{suffix}" if suffix is not None else "") + format
+    )
+    if format == ".html":
+        fig.write_html(fname)
+    else:
+        kwargs = {"width": 1920, "height": 1080}
+        if meta is not None:
+            kwargs.update(meta)
+        publish_layout(fig)
+        fig.write_image(fname, **kwargs)
+
+def publish_layout(fig):
+    fig.update_layout(
+        font_family="Arial",
+        font_size=10,
+        xaxis_title_font=dict(size=10, family="Arial"),
+        yaxis_title_font=dict(size=10, family="Arial"),
+    )
+
+if __name__ == "__main__":
+    build()
