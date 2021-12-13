@@ -64,7 +64,7 @@ def _build_figure(plotting_module, fig, suffix=None, meta=None):
     if format == ".html":
         fig.write_html(fname)
     else:
-        kwargs = {"width": 1920, "height": 1080}
+        kwargs = {"width": 600, "height": 800}
         if meta is not None:
             kwargs.update(meta)
         publish_layout(fig)
