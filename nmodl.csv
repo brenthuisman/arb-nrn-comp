@@ -1,4 +1,4 @@
-Name,Speed,method,ion_r,ion_w,range,global,state,param,assign
+name,speedup,method,ion_r,ion_w,range,global,state,param,assign
 Ca,11.9517,derivi,1,1,23,0,2,16,10
 CaL13,3.2405,cnexp,2,1,6,0,2,15,9
 Cav2_1,3.9287,cnexp,2,1,8,0,1,10,8
