@@ -26,12 +26,12 @@ def plot():
         cat: go.Figure(
             data=[
                 go.Bar(
-                    x=benches["bench_name"].loc[6:9],
-                    y=benches[cat].loc[6:9],
-                    text=["" if int(n) == 1 else (" " * spacebar[len(str(int(n)))] + f"x{int(n)}") for n in round(benches[cat].loc[6] / benches[cat].loc[6:9])],
+                    x=benches["bench_name"].loc[[6, 10, 11, 12]],
+                    y=benches[cat].loc[[6, 10, 11, 12]],
+                    text=["" if int(n) == 1 else (" " * spacebar[len(str(int(n)))] + f"x{int(n)}") for n in round(benches[cat].loc[6] / benches[cat].loc[[6, 10, 11, 12]])],
                     error_y=dict(
                         type="data",
-                        array=np.log10(benches_err[cat].loc[6:9]),
+                        array=np.log10(benches_err[cat].loc[[6, 10, 11, 12]]),
                     ),
                     textposition="auto",
                 )
