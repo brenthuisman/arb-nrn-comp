@@ -43,5 +43,5 @@ def plot():
                 xaxis_tickangle=30,
             ),
         )
-        for cat, title in zip(("tts", "spms", "e"), ("Time-to-solution [s]", "Runtime [s/ms]", "Energy [kJ]"))
+        for cat, title in zip(("tts", "spms", "e"), ("Time-to-solution (s)", "Runtime (s/ms)", "Energy (kJ)"))
     }

@@ -71,6 +71,12 @@ def plot():
         layout=dict(
             barmode="group",
             xaxis_title="Cell type",
-            yaxis_title="Runtime [s/ms]",
+            yaxis_title="Runtime (s/ms)",
+            legend=dict(
+                yanchor="top",
+                y=0.99,
+                xanchor="left",
+                x=0.70
+            ),
         ),
     )
