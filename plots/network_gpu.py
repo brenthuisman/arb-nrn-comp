@@ -41,6 +41,12 @@ def plot():
                 yaxis_title=title,
                 yaxis_type="log",
                 xaxis_tickangle=30,
+                legend=dict(
+                    yanchor="top",
+                    y=0.99,
+                    xanchor="right",
+                    x=0.01
+                ),
             ),
         )
         for cat, title in zip(("tts", "spms", "e"), ("Time-to-solution [s]", "Runtime [s/ms]", "Energy [kJ]"))
