@@ -58,6 +58,10 @@ def plot():
             go.Bar(
                 x=cnames,
                 y=[np.mean(data[cname]) / 10 for cname in cnames],
+                error_y=dict(
+                    type="data",
+                    array=[np.std(data[cname]) / 10 for cname in cnames],
+                ),
                 text=["" if int(n) == 1 else f"x{int(n)}" for n in (np.mean(nrn_data[cname]) / np.mean(data[cname]) for cname in cnames)],
                 textposition="auto",
                 name=sim,
