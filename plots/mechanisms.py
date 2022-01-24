@@ -11,9 +11,9 @@ def plot():
     matrix = np.load(str(bigger_path / "nrnmatrix.npy"))
     m = np.mean(matrix, axis=1) / m
     return go.Figure(go.Histogram(x=m, marker_line_width=0), layout = dict(
-        xaxis_title="Mechanism combination speedup",
+        xaxis_title="Speedup factor",
         xaxis_type="log",
-        yaxis_title="Count",
+        yaxis_visible=False,
         bargap=0.0,
         bargroupgap=0.0,
     ))
