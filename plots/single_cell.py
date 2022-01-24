@@ -2,9 +2,9 @@ import plotly.graph_objs as go
 from pathlib import Path
 import numpy as np
 import os
-os.environ["USING_NEURON"] = "TRUE"
-import dbbs_models
-import dbbs_models.test
+# os.environ["USING_NEURON"] = "TRUE"
+# import dbbs_models
+# import dbbs_models.test
 import time
 import pickle
 from arbor import single_cell_model
@@ -53,16 +53,17 @@ def plot():
             arb_data = pickle.load(f)
     # Change the bar mode
     cnames = ["GranuleCell", "GolgiCell", "PurkinjeCell", "BasketCell", "StellateCell"]
+    clabels = ["Granule", "Golgi", "Purkinje", "Basket", "Stellate"]
     return go.Figure(
         data=[
             go.Bar(
-                x=cnames,
+                x=clabels,
                 y=[np.mean(data[cname]) / 10 for cname in cnames],
                 error_y=dict(
                     type="data",
                     array=[np.std(data[cname]) / 10 for cname in cnames],
                 ),
-                text=["" if int(n) == 1 else f"x{int(n)}" for n in (np.mean(nrn_data[cname]) / np.mean(data[cname]) for cname in cnames)],
+                # text=["" if int(n) == 1 else f"x{int(n)}" for n in (np.mean(nrn_data[cname]) / np.mean(data[cname]) for cname in cnames)],
                 textposition="auto",
                 name=sim,
             )
@@ -71,7 +72,8 @@ def plot():
         layout=dict(
             barmode="group",
             xaxis_title="Cell type",
-            yaxis_title="Runtime (s/ms)",
+            yaxis_title="Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)",
+            xaxis_tickangle=15,
             legend=dict(
                 yanchor="top",
                 y=0.99,

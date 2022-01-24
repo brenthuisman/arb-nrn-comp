@@ -20,6 +20,7 @@ def plot():
         "e": "mean",
         "spms": "mean",
     })
+    benches.loc[[6, 10, 11, 12], "bench_name"] = ("NEURON", "1", "2", "4")
     benches["nh"] = benches["tts"] * benches["nodes"]
     spacebar = (0, 6, 9, 10)
     return {
@@ -28,7 +29,7 @@ def plot():
                 go.Bar(
                     x=benches["bench_name"].loc[[6, 10, 11, 12]],
                     y=benches[cat].loc[[6, 10, 11, 12]],
-                    text=["" if int(n) == 1 else (" " * spacebar[len(str(int(n)))] + f"x{int(n)}") for n in round(benches[cat].loc[6] / benches[cat].loc[[6, 10, 11, 12]])],
+                    # text=["" if int(n) == 1 else (" " * spacebar[len(str(int(n)))] + f"x{int(n)}") for n in round(benches[cat].loc[6] / benches[cat].loc[[6, 10, 11, 12]])],
                     error_y=dict(
                         type="data",
                         array=np.log10(benches_err[cat].loc[[6, 10, 11, 12]]),
@@ -40,7 +41,8 @@ def plot():
                 barmode="group",
                 yaxis_title=title,
                 yaxis_type="log",
-                xaxis_tickangle=30,
+                yaxis_dtick=1,
+                xaxis_title="Nodes",
                 legend=dict(
                     yanchor="top",
                     y=0.99,
@@ -49,5 +51,5 @@ def plot():
                 ),
             ),
         )
-        for cat, title in zip(("tts", "spms", "e"), ("Time-to-solution (s)", "Runtime (s/ms)", "Energy (kJ)"))
+        for cat, title in zip(("tts", "spms", "e"), ("Time-to-solution (s)", "Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)", "Energy (kJ)"))
     }
