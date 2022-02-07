@@ -10,7 +10,7 @@ def plot():
     print(matrix.shape, m.shape)
     matrix = np.load(str(bigger_path / "nrnmatrix.npy"))
     m = np.mean(matrix, axis=1) / m
-    return go.Figure(go.Histogram(x=m, marker_line_width=0), layout = dict(
+    return go.Figure(go.Histogram(x=m, marker_line_width=0, marker_color="orange"), layout = dict(
         xaxis_title="Speedup factor",
         xaxis_type="log",
         yaxis_visible=False,
