@@ -40,7 +40,6 @@ def plot():
             layout=dict(
                 barmode="group",
                 yaxis_title=title,
-                yaxis_type="log",
             ),
         )
         for cat, title in zip(("tts", "spms", "e"), ("Time-to-solution (s)", "Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)", "Energy (kJ)"))
