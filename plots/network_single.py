@@ -35,6 +35,7 @@ def plot():
                         array=np.log10(benches_err[cat].loc[1:5]),
                     ),
                     textposition="auto",
+                    marker_color=["rgb(31, 119, 180)", "rgb(255,127,14)", "rgb(255,127,14)", "rgb(255,127,14)", "rgb(255,127,14)"],
                 )
             ],
             layout=dict(
