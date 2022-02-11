@@ -12,8 +12,8 @@ def plot():
     m = np.mean(matrix, axis=1) / m
     return go.Figure(go.Histogram(x=m, marker_line_width=0, marker_color="rgb(255,127,14)"), layout = dict(
         xaxis_title="Speedup factor",
-        xaxis_type="log",
-        yaxis_visible=False,
+        xaxis_range=[0, 20],
+        yaxis_title="Count",
         bargap=0.0,
         bargroupgap=0.0,
     ))
