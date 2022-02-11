@@ -20,7 +20,7 @@ def plot():
         "e": "mean",
         "spms": "mean",
     })
-    benches.loc[1:5, "bench_name"] = ("NEURON", "Arbor", "Multithreaded", "Hyperthreaded", "GPU")
+    benches.loc[1:5, "bench_name"] = ("NEURON", "Arbor", "Arb. multithr.", "Arb. hyperthr.", "Arb. GPU")
     benches["nh"] = benches["tts"] * benches["nodes"]
     spacebar = (0, 6, 9, 10, 15, 19)
     return {
