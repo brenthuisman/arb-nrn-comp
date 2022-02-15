@@ -5,52 +5,85 @@ import pandas as pd
 
 def plot():
     job_data = pd.read_csv("jobs.csv")
-    job_data["tts"] = pd.to_timedelta(job_data["tts"]).dt.total_seconds()
     benches = job_data.groupby(["bench_id"]).agg({
         "bench_name": "first",
         "tts": "mean",
         "nodes": "first",
         "e": "mean",
         "spms": "mean",
+        "nh": "mean",
+        "usage": "mean",
     })
     benches_err = job_data.groupby(["bench_id"]).agg({
         "bench_name": "first",
-        "tts": "mean",
+        "tts": "std",
         "nodes": "first",
-        "e": "mean",
-        "spms": "mean",
+        "e": "std",
+        "spms": "std",
+        "nh": "std",
+        "usage": "std"
     })
-    benches.loc[[6, 10, 11, 12], "bench_name"] = ("NEURON", "1", "2", "4")
-    benches["nh"] = benches["tts"] * benches["nodes"]
-    spacebar = (0, 6, 9, 10)
+    loc_a = [10, 11, 12, 15, 16, 17, 18]
+    loc_n = [6]
+    benches.loc[loc_a, "bench_name"] = ("1", "2", "4", "8", "12", "16", "20")
+    benches.loc[loc_n, "bench_name"] = ("\x2020",)
     return {
         cat: go.Figure(
             data=[
                 go.Bar(
-                    x=benches["bench_name"].loc[[6, 10, 11, 12]],
-                    y=benches[cat].loc[[6, 10, 11, 12]],
-                    # text=["" if int(n) == 1 else (" " * spacebar[len(str(int(n)))] + f"x{int(n)}") for n in round(benches[cat].loc[6] / benches[cat].loc[[6, 10, 11, 12]])],
+                    x=benches["bench_name"].loc[loc_a],
+                    y=benches[cat].loc[loc_a],
                     error_y=dict(
                         type="data",
-                        array=np.log10(benches_err[cat].loc[[6, 10, 11, 12]]),
+                        array=benches_err[cat].loc[loc_a],
                     ),
-                    textposition="auto",
-                    marker_color=["rgb(31, 119, 180)", "rgb(255,127,14)", "rgb(255,127,14)", "rgb(255,127,14)"],
-                )
-            ],
+                    width=0.8,
+                    marker_color="rgb(255,127,14)",
+                    name="Arbor 1 GPU/node",
+                ),
+            ] + ([
+                go.Bar(
+                    x=benches["bench_name"].loc[loc_n],
+                    y=benches[cat].loc[loc_n],
+                    error_y=dict(
+                        type="data",
+                        array=benches_err[cat].loc[loc_n],
+                    ),
+                    width=0.8,
+                    marker_color="rgb(31, 119, 180)",
+                    name="NEURON 36 CPU/node",
+                ) ,
+            ] if cat != "usage" else []),
             layout=dict(
                 barmode="group",
                 yaxis_title=title,
-                yaxis_type="log",
-                yaxis_dtick=1,
+                yaxis_type="log" if cat != "usage" else None,
+                yaxis_dtick=1 if cat != "usage" else None,
+                yaxis_rangemode="tozero",
                 xaxis_title="Nodes",
+                # xaxis_range=[-1.5, 8.5],
                 legend=dict(
                     yanchor="top",
-                    y=0.99,
-                    xanchor="right",
-                    x=0.01
+                    y=0.9,
+                    xanchor="left",
+                    x=0.05
                 ),
             ),
         )
-        for cat, title in zip(("tts", "spms", "e"), ("Time-to-solution (s)", "Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)", "Energy (kJ)"))
+        for cat, title in zip(
+            (
+                "tts",
+                "spms",
+                "e",
+                "nh",
+                "usage"
+            ),
+            (
+                "Time-to-solution (s)",
+                "Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)",
+                "Energy (kJ)",
+                "Node hours (h)",
+                "GPU occupation (%)"
+            )
+        )
     }
