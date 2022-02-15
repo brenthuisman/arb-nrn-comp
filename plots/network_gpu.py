@@ -14,6 +14,7 @@ def plot():
         "nh": "mean",
         "usage": "mean",
     })
+    benches["e"] = benches["e"] / 1000
     benches_err = job_data.groupby(["bench_id"]).agg({
         "bench_name": "first",
         "tts": "std",
@@ -23,6 +24,7 @@ def plot():
         "nh": "std",
         "usage": "std"
     })
+    benches_err["e"] = benches_err["e"] / 1000
     loc_a = [10, 11, 12, 15, 16, 17, 18]
     loc_n = [6]
     benches.loc[loc_a, "bench_name"] = ("1", "2", "4", "8", "12", "16", "20")
@@ -81,7 +83,7 @@ def plot():
             (
                 "Time-to-solution (s)",
                 "Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)",
-                "Energy (kJ)",
+                "Energy (MJ)",
                 "Node hours (h)",
                 "GPU occupation (%)"
             )

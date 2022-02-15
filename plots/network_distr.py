@@ -13,6 +13,7 @@ def plot():
         "spms": "mean",
         "nh": "mean"
     })
+    benches["e"] = benches["e"] / 1000
     benches_err = job_data.groupby(["bench_id"]).agg({
         "bench_name": "first",
         "tts": "std",
@@ -21,6 +22,7 @@ def plot():
         "spms": "std",
         "nh": "std"
     })
+    benches_err["e"] = benches_err["e"] / 1000
     benches.loc[6:9, "bench_name"] = ("NEURON", "Arbor", "Arb. multithr.", "Arb. hyperthr.")
     return {
         cat: go.Figure(
@@ -52,7 +54,7 @@ def plot():
             (
                 "Time-to-solution (s)",
                 "Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)",
-                "Energy (kJ)",
+                "Energy (MJ)",
                 "Node hours (h)"
             )
         )
