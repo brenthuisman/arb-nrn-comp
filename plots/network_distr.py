@@ -23,7 +23,7 @@ def plot():
         "nh": "std"
     })
     benches_err["e"] = benches_err["e"] / 1000
-    benches.loc[6:9, "bench_name"] = ("NEURON", "Arbor", "Arb. multithr.", "Arb. hyperthr.")
+    benches.loc[6:9, "bench_name"] = ("NEURON", "Arb. MPI", "Arb. multithr.", "Arb. hyperthr.")
     return {
         cat: go.Figure(
             data=[

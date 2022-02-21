@@ -21,7 +21,7 @@ def plot():
         "spms": "std",
         "nh": "std",
     })
-    # benches.loc[1:5, "bench_name"] = ("NEURON", "Arbor", "Arb. multithr.", "Arb. hyperthr.", "Arb. GPU")
+    benches.loc[1:5, "bench_name"] = ("NEURON", "Arb. single", "Arb. multithr.", "Arb. hyperthr.", "Arb. GPU")
     return {
         cat: go.Figure(
             data=[

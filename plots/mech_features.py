@@ -111,7 +111,7 @@ def plot():
             ],
             layout=dict(
                 xaxis_title="Maximum speedup factor",
-                xaxis_range=[1,20],
+                xaxis_range=[1,30],
                 yaxis_title="Probability density",
                 legend=dict(
                     yanchor="top",

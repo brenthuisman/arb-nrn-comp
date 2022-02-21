@@ -28,6 +28,8 @@ def plot():
     loc_a = [10, 11, 12, 15, 16, 17, 18]
     loc_n = [6]
     benches.loc[loc_a, "bench_name"] = ("1", "2", "4", "8", "12", "16", "20")
+    # Add a zero width space to NEURON's 20 label, so the bar doesn't group with the 20 of
+    # Arbor, and messes up the layout.
     benches.loc[loc_n, "bench_name"] = ("\x2020",)
     return {
         cat: go.Figure(
