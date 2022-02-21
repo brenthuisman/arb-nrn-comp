@@ -12,16 +12,17 @@ names = ["Regular", "RANGE vars", "Nonlinear"]
 _shown = set()
 # Use about the same amount of bins that plotly produces to normalize the numpy data, so
 # that normalization yields about the same absolute units. (Not that the absolute count in
-# a histogram matters, but otherwise we have to display either no y-axes, or mismatched
-# y-axes)
+# a histogram matters much, but otherwise we have to display either no y-axes, or
+# mismatched y-axes)
 _plotly_bin_guess = 3750
 
 def mech_pdf_scatter(jobs, speedup, mech, groups):
     relevant = speedup[[mech in job_mechs for job_mechs in jobs]]
     safe = relevant[~np.isnan(relevant)]
     kernel = gaussian_kde(safe)
+    hist, edges = np.histogram(safe, bins=_plotly_bin_guess)
     pdf = kernel(xx)
-    pdf /= np.max(pdf)
+    pdf = pdf * np.max(hist) / np.max(pdf)
     group = groups[mech]
     show = group not in _shown
     _shown.add(group)
@@ -64,18 +65,37 @@ def plot():
     speedup = mean_nrn / mean_arb
     fspeed = speedup[~np.isnan(speedup)]
     print("Lost", len(speedup) - len(fspeed), "jobs")
+    hist, edges = np.histogram(fspeed, bins=_plotly_bin_guess)
     kernel = gaussian_kde(fspeed)
     envelop = kernel(xx)
-    envelop /= np.max(envelop)
+    envelop_norm = envelop / np.max(envelop)
+    envelop = envelop * np.max(hist) / np.max(envelop)
     return {
-        "kde_supp": go.Figure(
+        "kde_raw": go.Figure(
             data=[
                 go.Scatter(x=xx, y=envelop, name="All", line_color="rgb(255,127,14)"),
-                *(mech_group_scatter(jobs, speedup, group) for group in range(3))
+                *(mech_pdf_scatter(jobs, speedup, mech, mechgroups) for mech in mechs)
             ],
             layout=dict(
                 xaxis_title="Speedup factor",
                 xaxis_range=[0,20],
+                yaxis_title="Count",
+                legend=dict(
+                    yanchor="top",
+                    y=0.99,
+                    xanchor="right",
+                    x=1
+                ),
+            ),
+        ),
+        "kde_grouped": go.Figure(
+            data=[
+                go.Scatter(x=xx, y=envelop_norm, name="All", line_color="rgb(255,127,14)"),
+                *(mech_group_scatter(jobs, speedup, group) for group in range(3))
+            ],
+            layout=dict(
+                xaxis_title="Speedup factor",
+                xaxis_range=[1,20],
                 yaxis_title="Probability density",
                 legend=dict(
                     yanchor="top",
@@ -91,7 +111,7 @@ def plot():
             ],
             layout=dict(
                 xaxis_title="Maximum speedup factor",
-                xaxis_range=[0,20],
+                xaxis_range=[1,20],
                 yaxis_title="Probability density",
                 legend=dict(
                     yanchor="top",
