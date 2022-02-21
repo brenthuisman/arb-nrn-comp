@@ -21,7 +21,7 @@ def plot():
         "spms": "std",
         "nh": "std",
     })
-    benches.loc[1:5, "bench_name"] = ("NEURON", "Arbor", "Arb. multithr.", "Arb. hyperthr.", "Arb. GPU")
+    # benches.loc[1:5, "bench_name"] = ("NEURON", "Arbor", "Arb. multithr.", "Arb. hyperthr.", "Arb. GPU")
     return {
         cat: go.Figure(
             data=[
@@ -39,7 +39,7 @@ def plot():
                 barmode="group",
                 yaxis_title=title,
                 yaxis_type="log",
-                yaxis_dtick=1,
+                # yaxis_dtick=1,
                 yaxis_rangemode="tozero",
                 xaxis_tickangle=30,
             ),
