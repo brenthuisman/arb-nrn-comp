@@ -66,6 +66,7 @@ CC=cc CXX=CC cmake .. \
   -DARB_WITH_PYTHON=ON \
   -DARB_VECTORIZE=ON
 make install -j 8
+cd $HOME
 ```
 
 More details coming soon
