@@ -20,7 +20,7 @@ python -m venv nrnenv
 source arbenv/bin/activate
 ```
 
-3. Clone the arbor toolchain
+3. Clone the arbor environment toolchain
 
 ```
 cd arbenv
