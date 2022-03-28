@@ -9,7 +9,7 @@ type_alias = {
     "d": "dendrites",
     "a": "axon",
     "aa": "ascending_axon",
-    "pf": "parallel_fiber"
+    "pf": "parallel_fiber",
 }
 
 queries = sys.argv[1:]
@@ -19,4 +19,6 @@ for query in queries:
     if "L" in asks:
         print("Length of", types, len(sections))
     if "M" in asks:
-        print("Mechanism dict of",)
+        print(
+            "Mechanism dict of",
+        )

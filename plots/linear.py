@@ -4,10 +4,19 @@ import plotly.graph_objs as go
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
+
 class Decompose:
     def __init__(self, columns, regression, speedup):
         self._coef = dict(zip(columns, regression.coef_))
-        self._funcs = dict(zip(columns, (lambda v, c=c: c * v + regression.intercept_ for c in regression.coef_)))
+        self._funcs = dict(
+            zip(
+                columns,
+                (
+                    lambda v, c=c: c * v + regression.intercept_
+                    for c in regression.coef_
+                ),
+            )
+        )
         self._spd = speedup
 
     def only(self, vals, *cols):
@@ -15,6 +24,7 @@ class Decompose:
 
     def trendline(self, vals, col):
         return [0, 10], [1, 2]
+
 
 def plot():
     mod_data = pandas.read_csv(Path(__file__).parent.parent / "nmodl.csv")
@@ -27,7 +37,10 @@ def plot():
     regressor_simple = LinearRegression().fit(ft_sum.reshape(-1, 1), speedup)
     system_score = regressor.score(features, speedup)
     print("Regression score:", system_score)
-    print("Simple regression score:", regressor_simple.score(ft_sum.reshape(-1, 1), speedup))
+    print(
+        "Simple regression score:",
+        regressor_simple.score(ft_sum.reshape(-1, 1), speedup),
+    )
     decomp = Decompose(cols, regressor, speedup)
     param_decomp = decomp.only(features, "param")
     param_trend = decomp.trendline(features, "param")

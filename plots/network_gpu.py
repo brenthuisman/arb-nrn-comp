@@ -3,27 +3,32 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+
 def plot():
     job_data = pd.read_csv("jobs.csv")
-    benches = job_data.groupby(["bench_id"]).agg({
-        "bench_name": "first",
-        "tts": "mean",
-        "nodes": "first",
-        "e": "mean",
-        "spms": "mean",
-        "nh": "mean",
-        "usage": "mean",
-    })
+    benches = job_data.groupby(["bench_id"]).agg(
+        {
+            "bench_name": "first",
+            "tts": "mean",
+            "nodes": "first",
+            "e": "mean",
+            "spms": "mean",
+            "nh": "mean",
+            "usage": "mean",
+        }
+    )
     benches["e"] = benches["e"] / 1000
-    benches_err = job_data.groupby(["bench_id"]).agg({
-        "bench_name": "first",
-        "tts": "std",
-        "nodes": "first",
-        "e": "std",
-        "spms": "std",
-        "nh": "std",
-        "usage": "std"
-    })
+    benches_err = job_data.groupby(["bench_id"]).agg(
+        {
+            "bench_name": "first",
+            "tts": "std",
+            "nodes": "first",
+            "e": "std",
+            "spms": "std",
+            "nh": "std",
+            "usage": "std",
+        }
+    )
     benches_err["e"] = benches_err["e"] / 1000
     loc_a = [10, 11, 12, 15, 16, 17, 18]
     loc_n = [6]
@@ -45,19 +50,24 @@ def plot():
                     marker_color="rgb(255,127,14)",
                     name="Arbor 1 GPU/node",
                 ),
-            ] + ([
-                go.Bar(
-                    x=benches["bench_name"].loc[loc_n],
-                    y=benches[cat].loc[loc_n],
-                    error_y=dict(
-                        type="data",
-                        array=benches_err[cat].loc[loc_n],
+            ]
+            + (
+                [
+                    go.Bar(
+                        x=benches["bench_name"].loc[loc_n],
+                        y=benches[cat].loc[loc_n],
+                        error_y=dict(
+                            type="data",
+                            array=benches_err[cat].loc[loc_n],
+                        ),
+                        width=0.8,
+                        marker_color="rgb(31, 119, 180)",
+                        name="NEURON 36 CPU/node",
                     ),
-                    width=0.8,
-                    marker_color="rgb(31, 119, 180)",
-                    name="NEURON 36 CPU/node",
-                ) ,
-            ] if cat != "usage" else []),
+                ]
+                if cat != "usage"
+                else []
+            ),
             layout=dict(
                 barmode="group",
                 yaxis_title=title,
@@ -66,28 +76,17 @@ def plot():
                 yaxis_rangemode="tozero",
                 xaxis_title="Nodes",
                 # xaxis_range=[-1.5, 8.5],
-                legend=dict(
-                    yanchor="top",
-                    y=0.9,
-                    xanchor="left",
-                    x=0.05
-                ),
+                legend=dict(yanchor="top", y=0.9, xanchor="left", x=0.05),
             ),
         )
         for cat, title in zip(
-            (
-                "tts",
-                "spms",
-                "e",
-                "nh",
-                "usage"
-            ),
+            ("tts", "spms", "e", "nh", "usage"),
             (
                 "Time-to-solution (s)",
                 "Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)",
                 "Energy (MJ)",
                 "Node hours (h)",
-                "GPU occupation (%)"
-            )
+                "GPU occupation (%)",
+            ),
         )
     }

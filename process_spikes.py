@@ -2,7 +2,9 @@ import h5py
 from bsb.config import get_result_config
 from functools import reduce
 
-with h5py.File("results/results_arbor.hdf5", "a") as f, h5py.File("results/results_nrn.hdf5", "r") as g:
+with h5py.File("results/results_arbor.hdf5", "a") as f, h5py.File(
+    "results/results_nrn.hdf5", "r"
+) as g:
     for k, v in g.attrs.items():
         f.attrs[k] = v
     attr_map = {n: gg.attrs for n, gg in g["recorders/soma_spikes"].items()}

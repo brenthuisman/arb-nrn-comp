@@ -3,25 +3,38 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+
 def plot():
     job_data = pd.read_csv("jobs.csv")
-    benches = job_data.groupby(["bench_id"]).agg({
-        "bench_name": "first",
-        "tts": "mean",
-        "nodes": "first",
-        "e": "mean",
-        "spms": "mean",
-        "nh": "mean"
-    })
-    benches_err = job_data.groupby(["bench_id"]).agg({
-        "bench_name": "first",
-        "tts": "std",
-        "nodes": "first",
-        "e": "std",
-        "spms": "std",
-        "nh": "std",
-    })
-    benches.loc[1:5, "bench_name"] = ("NEURON", "Arb. single", "Arb. multithr.", "Arb. hyperthr.", "Arb. GPU")
+    benches = job_data.groupby(["bench_id"]).agg(
+        {
+            "bench_name": "first",
+            "tts": "mean",
+            "nodes": "first",
+            "e": "mean",
+            "spms": "mean",
+            "nh": "mean",
+        }
+    )
+    benches_err = job_data.groupby(["bench_id"]).agg(
+        {
+            "bench_name": "first",
+            "tts": "std",
+            "nodes": "first",
+            "e": "std",
+            "spms": "std",
+            "nh": "std",
+        }
+    )
+    benches["tts"] *= 10
+    benches_err["tts"] *= 10
+    benches.loc[1:5, "bench_name"] = (
+        "NEURON",
+        "Arb. single",
+        "Arb. multithr.",
+        "Arb. hyperthr.",
+        "Arb. GPU",
+    )
     return {
         cat: go.Figure(
             data=[
@@ -32,7 +45,13 @@ def plot():
                         type="data",
                         array=benches_err[cat].loc[1:5],
                     ),
-                    marker_color=["rgb(31, 119, 180)", "rgb(255,127,14)", "rgb(255,127,14)", "rgb(255,127,14)", "rgb(255,127,14)"],
+                    marker_color=[
+                        "rgb(31, 119, 180)",
+                        "rgb(255,127,14)",
+                        "rgb(255,127,14)",
+                        "rgb(255,127,14)",
+                        "rgb(255,127,14)",
+                    ],
                 )
             ],
             layout=dict(
@@ -56,6 +75,6 @@ def plot():
                 "Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)",
                 "Energy (kJ)",
                 "Node hours (h)",
-            )
+            ),
         )
     }

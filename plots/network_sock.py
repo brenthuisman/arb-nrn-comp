@@ -3,25 +3,32 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+
 def plot():
     job_data = pd.read_csv("jobs.csv")
     # job_data["tts"] = pd.to_timedelta(job_data["tts"]).dt.total_seconds()
-    benches = job_data.groupby(["bench_id"]).agg({
-        "bench_name": "first",
-        "tts": "mean",
-        "nodes": "first",
-        "e": "mean",
-        "spms": "mean",
-        "nh": "mean",
-    })
-    benches_err = job_data.groupby(["bench_id"]).agg({
-        "bench_name": "first",
-        "tts": "std",
-        "nodes": "first",
-        "e": "std",
-        "spms": "std",
-        "nh": "std",
-    })
+    benches = job_data.groupby(["bench_id"]).agg(
+        {
+            "bench_name": "first",
+            "tts": "mean",
+            "nodes": "first",
+            "e": "mean",
+            "spms": "mean",
+            "nh": "mean",
+        }
+    )
+    benches_err = job_data.groupby(["bench_id"]).agg(
+        {
+            "bench_name": "first",
+            "tts": "std",
+            "nodes": "first",
+            "e": "std",
+            "spms": "std",
+            "nh": "std",
+        }
+    )
+    benches["tts"] *= 10
+    benches_err["tts"] *= 10
     benches.loc[13:14, "bench_name"] = ("Arbor", "NEURON")
     print(benches["e"], benches_err["e"])
     spacebar = (0, 6, 9, 10, 15)
@@ -56,7 +63,7 @@ def plot():
                 "Time-to-solution (s)",
                 "Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)",
                 "Energy (kJ)",
-                "Node hours (h)"
-            )
+                "Node hours (h)",
+            ),
         )
     }

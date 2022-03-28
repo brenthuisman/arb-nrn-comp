@@ -4,6 +4,7 @@ from patch import p
 import plotly.graph_objs as go
 import time
 
+
 def run_nrn(models, duration, v_init):
     for model in models:
         model.record_soma()
@@ -14,6 +15,7 @@ def run_nrn(models, duration, v_init):
     p.finitialize(v_init)
     p.continuerun(duration)
     return list(neuron_time)
+
 
 if __name__ == "__main__":
     name = sys.argv[1]
@@ -27,11 +29,7 @@ if __name__ == "__main__":
     print("Finished", name)
     go.Figure(
         [
-            go.Scatter(
-                x=t,
-                y=list(model.Vm),
-                name=name
-            )
+            go.Scatter(x=t, y=list(model.Vm), name=name)
             for name, model in zip(("NEW", "OLD"), models)
         ]
     ).show()

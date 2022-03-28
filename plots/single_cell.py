@@ -2,12 +2,14 @@ import plotly.graph_objs as go
 from pathlib import Path
 import numpy as np
 import os
+
 # os.environ["USING_NEURON"] = "TRUE"
 # import dbbs_models
 # import dbbs_models.test
 import time
 import pickle
 from arbor import single_cell_model
+
 
 def plot():
     arb_data = {}
@@ -74,11 +76,6 @@ def plot():
             xaxis_title="Cell type",
             yaxis_title="Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)",
             xaxis_tickangle=15,
-            legend=dict(
-                yanchor="top",
-                y=0.99,
-                xanchor="left",
-                x=0.70
-            ),
+            legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.70),
         ),
     )

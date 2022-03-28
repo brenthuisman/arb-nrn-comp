@@ -45,6 +45,7 @@ import arborize.core
 import numpy as np
 from time import time
 
+
 def monkey_apply_section_ions(self, section, ions):
     prop = {"e": "e{}", "int": "{}i", "ext": "{}e"}
     for ion_name, ion_props in ions.items():
@@ -52,13 +53,17 @@ def monkey_apply_section_ions(self, section, ions):
             try:
                 prop_attr = prop[prop_name].format(ion_name)
             except KeyError as e:
-                raise IonAttributeError(f"Unknown ion attribute '{prop_name}'.") from None
+                raise IonAttributeError(
+                    f"Unknown ion attribute '{prop_name}'."
+                ) from None
             try:
                 setattr(section.__neuron__(), prop_attr, value)
             except:
                 pass
 
+
 arborize.core.NeuronModel._apply_section_ions = monkey_apply_section_ions
+
 
 class single_recipe(arbor.recipe):
     def __init__(self, cell, probes, Vm, K):
@@ -69,10 +74,12 @@ class single_recipe(arbor.recipe):
         self.the_probes = probes
         self.the_props = arbor.neuron_cable_properties()
         self.the_props.set_property(Vm=Vm, tempK=K, rL=35.4, cm=0.01)
-        self.the_props.set_ion(ion='na', int_con=10,   ext_con=140, rev_pot=50)
-        self.the_props.set_ion(ion='k',  int_con=54.4, ext_con=2.5, rev_pot=-77)
-        self.the_props.set_ion(ion='ca', int_con=0.00005, ext_con=2, rev_pot=132.5)
-        self.the_props.set_ion(ion='h', valence=1, int_con=1.0, ext_con=1.0, rev_pot=-34)
+        self.the_props.set_ion(ion="na", int_con=10, ext_con=140, rev_pot=50)
+        self.the_props.set_ion(ion="k", int_con=54.4, ext_con=2.5, rev_pot=-77)
+        self.the_props.set_ion(ion="ca", int_con=0.00005, ext_con=2, rev_pot=132.5)
+        self.the_props.set_ion(
+            ion="h", valence=1, int_con=1.0, ext_con=1.0, rev_pot=-34
+        )
 
         self.the_cat = dbbs_models.GranuleCell.get_catalogue()
         self.the_props.register(self.the_cat)
@@ -103,18 +110,25 @@ class single_recipe(arbor.recipe):
 
 
 def whitelist_model(model, whitelist):
-    class model(model): pass
+    class model(model):
+        pass
+
     model.section_types = model.section_types.copy()
     for k, v in model.section_types.items():
         model.section_types[k] = v = v.copy()
         try:
             mech_iter = v["mechanisms"].items()
         except:
-            v._self["mechanisms"] = {mech_key: mech for mech_key, mech in mech_iter if mech_key in whitelist}
+            v._self["mechanisms"] = {
+                mech_key: mech for mech_key, mech in mech_iter if mech_key in whitelist
+            }
         else:
-            v["mechanisms"] = {mech_key: mech for mech_key, mech in mech_iter if mech_key in whitelist}
+            v["mechanisms"] = {
+                mech_key: mech for mech_key, mech in mech_iter if mech_key in whitelist
+            }
 
     return model
+
 
 def run_nrn(setup, model, duration, v_init, temperature):
     data = np.loadtxt(f"{model.__name__}.txt")
@@ -123,7 +137,7 @@ def run_nrn(setup, model, duration, v_init, temperature):
 
 def run_arb(setup, model, duration, v_init, temperature):
     cell = model.cable_cell()
-    probe = arbor.cable_probe_membrane_voltage('(proximal (tag 1))')
+    probe = arbor.cable_probe_membrane_voltage("(proximal (tag 1))")
     recipe = single_recipe(cell, [probe], v_init, temperature)
     context = arbor.context()
     domains = arbor.partition_load_balance(recipe, context)
@@ -143,13 +157,14 @@ def run_model(model, duration=1000, v_init=-65, setup=None, temperature=305.15):
         if "whitelist" in setup:
             whitelist = setup["whitelist"]
             model = whitelist_model(model, whitelist)
-    return run_nrn(setup, model, duration, v_init, temperature), run_arb(setup, model, duration, v_init, temperature)
+    return run_nrn(setup, model, duration, v_init, temperature), run_arb(
+        setup, model, duration, v_init, temperature
+    )
+
 
 if __name__ == "__main__":
     models = {
-        v: {"model": getattr(dbbs_models, v)}
-        for v in sys.argv
-        if v.endswith("Cell")
+        v: {"model": getattr(dbbs_models, v)} for v in sys.argv if v.endswith("Cell")
     } or {
         name: {"model": model}
         for name, model in vars(dbbs_models).items()
@@ -163,10 +178,27 @@ if __name__ == "__main__":
     for name, setup in models.items():
         model = setup["model"]
         if "mech_sweep" in sys.argv:
-            mechs = sorted(list(set(itertools.chain(*(flatten_composite(model, v).get("mechanisms", dict()).keys() for v in model.section_types.values())))), key=str)
+            mechs = sorted(
+                list(
+                    set(
+                        itertools.chain(
+                            *(
+                                flatten_composite(model, v)
+                                .get("mechanisms", dict())
+                                .keys()
+                                for v in model.section_types.values()
+                            )
+                        )
+                    )
+                ),
+                key=str,
+            )
             skippers = [k.split(":")[1] for k in sys.argv if "skip:" in k]
             skip = list(str(m) for m in mechs).index(skippers[0]) + 2 if skippers else 0
-            setup["setups"] = [{"whitelist": [m for m in mechs[:i] if str(m) not in blocklist]} for i in range(skip, len(mechs))]
+            setup["setups"] = [
+                {"whitelist": [m for m in mechs[:i] if str(m) not in blocklist]}
+                for i in range(skip, len(mechs))
+            ]
         setups = setup.get("setups", (None,))
         for setup in setups:
             if setup is not None:
@@ -175,7 +207,9 @@ if __name__ == "__main__":
                 sname = name
             dur_avg = 0
             for i in range(20):
-                adur, at, av = run_arb(setup, model, duration=10, v_init=-65, temperature=305.15)
+                adur, at, av = run_arb(
+                    setup, model, duration=10, v_init=-65, temperature=305.15
+                )
                 dur_avg += adur
                 print(sname, "\t", adur)
             # print("Setup", sname, "average", dur_avg / (i + 1))
