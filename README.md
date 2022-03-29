@@ -27,7 +27,7 @@ cd arbenv
 git clone git@github.com:arbor-sim/arbor --recurse-submodules
 cd arbor && git checkout aba80a93b169bee93aa693c0d612bd7f66b7e5dc && git cd ..
 git clone git@github.com:dbbs-lab/arborize
-cd arborize && git checkout 6ce8ba7ab943655d5faa8c65f44d7b99b251a9c5 && cd ..
+cd arborize && git checkout bcda075d4ea63bb5846d4edbff669c32a380bf1b && cd ..
 git clone git@github.com:Helveg/bsb-1 bsb
 cd bsb && git checkout 1bcfc0132b98455962dc0fea59a50b731d45971b && cd ..
 git clone git@github.com:dbbs-lab/catalogue
@@ -35,7 +35,7 @@ cd catalogue && git checkout eb2eaee1d0563dfdca0692514ae2e25650578156 && cd ..
 git clone git@github.com:dbbs-lab/glia
 cd glia && git checkout 44adc91575f15a98813cd69a43a7e34d0a63b570 && cd ..
 git clone git@github.com:dbbs-lab/models
-cd models && git checkout 2d51f1b57340e82705234cb137c037b7f358d6c4 && cd ..
+cd models && git checkout 3931b4dd49577703179d9b083471be1c363fc10c && cd ..
 ```
 
 3. Install the Python tools (in this order!)
