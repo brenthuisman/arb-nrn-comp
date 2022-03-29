@@ -47,7 +47,6 @@ pip install -e models
 pip install -e catalogue
 pip install -e arborize
 pip install -e glia
-pip install neuron
 ```
 
 4. Build `arbor`:
