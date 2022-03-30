@@ -17,7 +17,7 @@ python -m venv nrnenv
 2. Activate the Arbor venv:
 
 ```
-source arbenv/bin/activate
+source $HOME/arbenv/bin/activate
 ```
 
 3. Clone the arbor environment toolchain
@@ -27,15 +27,15 @@ cd arbenv
 git clone git@github.com:arbor-sim/arbor --recurse-submodules
 cd arbor && git checkout aba80a93b169bee93aa693c0d612bd7f66b7e5dc && git cd ..
 git clone git@github.com:dbbs-lab/arborize
-cd arborize && git checkout bcda075d4ea63bb5846d4edbff669c32a380bf1b && cd ..
+cd arborize && git checkout 2ab8e26050782c5ce218114e50ceb550ad94b751 && cd ..
 git clone git@github.com:Helveg/bsb-1 bsb
-cd bsb && git checkout 1bcfc0132b98455962dc0fea59a50b731d45971b && cd ..
+cd bsb && git checkout fbde8fe89e3b94ba10b2c9bbf2cc3c5e1f012b28 && cd ..
 git clone git@github.com:dbbs-lab/catalogue
 cd catalogue && git checkout eb2eaee1d0563dfdca0692514ae2e25650578156 && cd ..
 git clone git@github.com:dbbs-lab/glia
 cd glia && git checkout 44adc91575f15a98813cd69a43a7e34d0a63b570 && cd ..
 git clone git@github.com:dbbs-lab/models
-cd models && git checkout 3931b4dd49577703179d9b083471be1c363fc10c && cd ..
+cd models && git checkout 5174d0e41efcb44c605f8e08992a6002733740dd && cd ..
 ```
 
 3. Install the Python tools (in this order!)
@@ -68,4 +68,16 @@ make install -j 8
 cd $HOME
 ```
 
-More details coming soon
+You can now replicate Arbor instructions.
+
+5. Activate the NEURON environment
+
+```
+source $HOME/nrnenv/bin/activate
+```
+
+6. Install NEURON and the toolchain:
+
+```
+pip install NEURON==8.1 bsb==3.10.2[mpi,neuron] dbbs-models==1.5.0rc0
+```
