@@ -4,7 +4,7 @@ from bsb.plotting import hdf5_plot_spike_raster
 import itertools
 
 def plot():
-    with h5py.File("results/results_arbor.hdf5", "a") as f, h5py.File("results/results_nrn_fixed.hdf5", "r") as g:
+    with h5py.File("results/results_arbenv.hdf5", "a") as f, h5py.File("results/results_nrn_fixed.hdf5", "r") as g:
         f.require_group("recorders/deduped")
         del f["recorders/deduped"]
         f.require_group("recorders/deduped")

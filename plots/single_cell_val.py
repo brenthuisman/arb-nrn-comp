@@ -22,6 +22,7 @@ def plot():
             arb_model.properties.set_ion(
                 ion="h", valence=1, int_con=1.0, ext_con=1.0, rev_pot=-34
             )
+            arb_model.properties.set_property(Vm =-65, tempK=305.15, rL=35.4, cm=0.01)
             arb_model.properties.catalogue = model.get_catalogue()
             arb_model.probe("voltage", '"midpoint"', frequency=10)
             arb_model.run(1000, dt=0.025)
