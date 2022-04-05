@@ -10,7 +10,7 @@ class AllProperties:
             self._props = arbor.neuron_cable_properties()
         else:
             self._props = arbor.cable_global_properties()
-        self._props.set_property(Vm=v_init, tempK=K)
+        self._props.set_property(Vm=v_init, tempK=K, rL=rL, cm=cm)
         grouped_by_ion = {}
         for k, v in kwargs.items():
             parts = k.split("_")
