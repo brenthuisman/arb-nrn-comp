@@ -76,7 +76,13 @@ def plot():
                 yaxis_rangemode="tozero",
                 xaxis_title="Nodes",
                 # xaxis_range=[-1.5, 8.5],
-                legend=dict(yanchor="top", y=0.9, xanchor="left", x=0.05),
+                legend=dict(
+                    yanchor="top",
+                    y=0.9,
+                    xanchor="left",
+                    x=0.05
+                ),
+                showlegend=False,
             ),
         )
         for cat, title in zip(

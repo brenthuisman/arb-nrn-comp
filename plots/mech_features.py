@@ -5,76 +5,8 @@ import math
 from scipy.stats import gaussian_kde
 
 xx = np.arange(0, 35, 0.01)
-mechs = [
-    "CaL13",
-    "Ca",
-    "Cav2_1",
-    "Cav2_2",
-    "Cav2_3",
-    "Cav3_1",
-    "Cav3_2",
-    "Cav3_3",
-    "cdp5",
-    "cdp5_CAM",
-    "cdp5_CAM_GoC",
-    "cdp5_CR",
-    "HCN1",
-    "HCN1_golgi",
-    "HCN2",
-    "Kca1_1",
-    "Kca2_2",
-    "Kca3_1",
-    "Kir2_3",
-    "Km",
-    "Kv1_1",
-    "Kv1_5",
-    "Kv2_2",
-    "Kv3_3",
-    "Kv3_4",
-    "Kv4_3",
-    "Kv7",
-    "Leak",
-    "Leak_GABA",
-    "Na_granule_cell",
-    "Na_granule_cell_FHF",
-    "Nav1_1",
-    "Nav1_6",
-]
-groups = [
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    2,
-    2,
-    2,
-    2,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-]
+mechs = ["CaL13", "Ca", "Cav2_1", "Cav2_2", "Cav2_3", "Cav3_1", "Cav3_2", "Cav3_3", "cdp5", "cdp5_CAM", "cdp5_CAM_GoC", "cdp5_CR", "HCN1", "HCN1_golgi", "HCN2", "Kca1_1", "Kca2_2", "Kca3_1", "Kir2_3", "Km", "Kv1_1", "Kv1_5", "Kv2_2", "Kv3_3", "Kv3_4", "Kv4_3", "Kv7", "Leak", "Leak_GABA", "Na_granule_cell", "Na_granule_cell_FHF", "Nav1_1", "Nav1_6"]
+groups = [0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1]
 colors = ["rgba(100,100,100,0.2)", "rgba(130, 30, 0, 0.6)", "rgba(255, 0, 0, 1)"]
 names = ["Regular", "RANGE vars", "Nonlinear"]
 _shown = set()
@@ -95,12 +27,15 @@ def mech_pdf_scatter(jobs, speedup, mech, groups):
     group = groups[mech]
     show = group not in _shown
     _shown.add(group)
+    color = colors[group]
+    if color == "rgba(0,0,0,1)":
+        color = "rgba(100,100,100,0.2)"
     return go.Scatter(
         x=xx,
         y=pdf,
         name=names[group],
         legendgroup=group,
-        marker_color=colors[group],
+        marker_color=color,
         showlegend=show,
     )
 
@@ -118,7 +53,11 @@ def mech_group_scatter(jobs, speedup, group):
     pdf = kernel(xx)
     pdf /= np.max(pdf)
     return go.Scatter(
-        x=xx, y=pdf, name=names[group], legendgroup=group, marker_color=colors[group]
+        x=xx, y=pdf,
+        name=names[group],
+        legendgroup=group,
+        marker_color=colors[group],
+        line_width=2.5,
     )
 
 
@@ -134,7 +73,11 @@ def mech_group_max(jobs, speedup, group):
     kernel = gaussian_kde(res)
     pdf = kernel(xx)
     return go.Scatter(
-        x=xx, y=pdf, name=names[group], legendgroup=group, marker_color=colors[group]
+        x=xx, y=pdf,
+        name=names[group],
+        legendgroup=group,
+        marker_color=colors[group],
+        line_width=2.5,
     )
 
 
@@ -170,8 +113,8 @@ def plot():
     return {
         "kde_raw": go.Figure(
             data=[
-                go.Scatter(x=xx, y=envelop, name="All", line_color="rgb(255,127,14)"),
-                *(mech_pdf_scatter(jobs, speedup, mech, mechgroups) for mech in mechs),
+                go.Scatter(x=xx, y=envelop, name="All", line_color="rgb(255,127,14)", line_width=2.5),
+                *(mech_pdf_scatter(jobs, speedup, mech, mechgroups) for mech in mechs)
             ],
             layout=dict(
                 xaxis_title="Speedup factor",
@@ -183,7 +126,7 @@ def plot():
         "kde_grouped": go.Figure(
             data=[
                 go.Scatter(
-                    x=xx, y=envelop_norm, name="All", line_color="rgb(255,127,14)"
+                    x=xx, y=envelop_norm, name="All", line_color="rgb(255,127,14)", line_width=2.5,
                 ),
                 *(mech_group_scatter(jobs, speedup, group) for group in range(3)),
             ],
