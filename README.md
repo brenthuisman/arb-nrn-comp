@@ -29,7 +29,7 @@ cd arbor && git checkout aba80a93b169bee93aa693c0d612bd7f66b7e5dc && git cd ..
 git clone git@github.com:dbbs-lab/arborize
 cd arborize && git checkout 2ab8e26050782c5ce218114e50ceb550ad94b751 && cd ..
 git clone git@github.com:Helveg/bsb-1 bsb
-cd bsb && git checkout fbde8fe89e3b94ba10b2c9bbf2cc3c5e1f012b28 && cd ..
+cd bsb && git checkout 1cf5a247927b52a54f870f3f2680cd9f947a8d3f && cd ..
 git clone git@github.com:dbbs-lab/catalogue
 cd catalogue && git checkout eb2eaee1d0563dfdca0692514ae2e25650578156 && cd ..
 git clone git@github.com:dbbs-lab/glia
