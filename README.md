@@ -33,7 +33,7 @@ cd bsb && git checkout fbde8fe89e3b94ba10b2c9bbf2cc3c5e1f012b28 && cd ..
 git clone git@github.com:dbbs-lab/catalogue
 cd catalogue && git checkout eb2eaee1d0563dfdca0692514ae2e25650578156 && cd ..
 git clone git@github.com:dbbs-lab/glia
-cd glia && git checkout 44adc91575f15a98813cd69a43a7e34d0a63b570 && cd ..
+cd glia && git checkout 5442e9e1485cab643b4a422449f338e7c6e8b5b5 && cd ..
 git clone git@github.com:dbbs-lab/models
 cd models && git checkout 5174d0e41efcb44c605f8e08992a6002733740dd && cd ..
 ```
