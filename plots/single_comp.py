@@ -95,9 +95,11 @@ def nrn_sim(pkg, t, dt):
         try:
             s.insert(mech.mod_name)
         except ValueError:
+            # The mod collection contains PointProcesses, skip those.
             continue
         print("inserted", mech.mod_name)
         mname = mech.asset_name
+        # Match the NEURON display labels to the Arbor ones.
         if mech.variant != "0":
             mname += f"_{mech.variant}"
         if mname == "Km_granule_cell":
