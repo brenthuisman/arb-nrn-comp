@@ -7,7 +7,7 @@ from scipy.stats import gaussian_kde
 xx = np.arange(0, 35, 0.01)
 mechs = ["CaL13", "Ca", "Cav2_1", "Cav2_2", "Cav2_3", "Cav3_1", "Cav3_2", "Cav3_3", "cdp5", "cdp5_CAM", "cdp5_CAM_GoC", "cdp5_CR", "HCN1", "HCN1_golgi", "HCN2", "Kca1_1", "Kca2_2", "Kca3_1", "Kir2_3", "Km", "Kv1_1", "Kv1_5", "Kv2_2", "Kv3_3", "Kv3_4", "Kv4_3", "Kv7", "Leak", "Leak_GABA", "Na_granule_cell", "Na_granule_cell_FHF", "Nav1_1", "Nav1_6"]
 groups = [0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1]
-colors = ["rgba(100,100,100,0.2)", "rgba(130, 30, 0, 0.6)", "rgba(255, 0, 0, 1)"]
+colors = ["rgba(0,0,0,1)", "rgba(130, 30, 0, 0.6)", "rgba(255, 0, 0, 1)"]
 names = ["Regular", "RANGE vars", "Nonlinear"]
 _shown = set()
 # Use about the same amount of bins that plotly produces to normalize the numpy data, so
@@ -37,6 +37,7 @@ def mech_pdf_scatter(jobs, speedup, mech, groups):
         legendgroup=group,
         marker_color=color,
         showlegend=show,
+        line_width=2.5,
     )
 
 
