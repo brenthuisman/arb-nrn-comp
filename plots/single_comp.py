@@ -29,10 +29,10 @@ class AllProperties:
 
 def make_props(**kwargs):
     default = dict(
-        # na_int_con=10.0, na_ext_con=140.0, na_rev_pot=50.0,
-        # k_int_con=54.4, k_ext_con=2.5, k_rev_pot=-77.0,
-        # ca_int_con=0.00005, ca_ext_con=2.0, ca_rev_pot=132.5,
-        # cal_int_con=0.00005, cal_ext_con=2.0, cal_rev_pot=132.5, cal_valence=2,
+        na_int_con=10.0, na_ext_con=140.0, na_rev_pot=50.0,
+        k_int_con=54.4, k_ext_con=2.5, k_rev_pot=-77.0,
+        ca_int_con=0.00005, ca_ext_con=2.0, ca_rev_pot=132.5,
+        cal_int_con=0.00005, cal_ext_con=2.0, cal_rev_pot=132.5, cal_valence=2,
         h_valence=1.0, h_int_con=1.0, h_ext_con=1.0, h_rev_pot=-34.0,
     )
     default.update(kwargs)
