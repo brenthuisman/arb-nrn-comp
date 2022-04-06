@@ -24,7 +24,7 @@ source $HOME/arbenv/bin/activate
 
 ```
 cd arbenv
-git clone git@github.com:arbor-sim/arbor --recurse-submodules
+git clone git@github.com:Helveg/arbor --recurse-submodules
 cd arbor && git checkout aba80a93b169bee93aa693c0d612bd7f66b7e5dc && git cd ..
 git clone git@github.com:dbbs-lab/arborize
 cd arborize && git checkout 2ab8e26050782c5ce218114e50ceb550ad94b751 && cd ..
