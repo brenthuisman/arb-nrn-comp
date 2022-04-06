@@ -82,3 +82,10 @@ source $HOME/nrnenv/bin/activate
 pip install -e $HOME/arbenv/bsb[neuron]
 pip install NEURON==8.1 dbbs-models==1.5.0rc0 arborize==2.0.0b8
 ```
+
+# Plotting
+
+```
+python plot [module_name(s)]
+python build <format: html, svg, png> [module_name(s)]
+```
