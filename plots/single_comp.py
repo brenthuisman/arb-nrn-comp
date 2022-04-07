@@ -134,7 +134,7 @@ def plot():
         [
             *[
                 go.Scatter(x=sample[:, 0], y=sample[:, 1], name="Arbor", legendgroup=mech, legendgrouptitle_text=mech)
-                for mech, sample in zip(catalogue, samples)
+                for mech, sample in zip(recipe._mechs, samples)
             ],
             *[
                 go.Scatter(x=list(time), y=list(trace), name="NEURON", legendgroup=mech, legendgrouptitle_text=mech)
