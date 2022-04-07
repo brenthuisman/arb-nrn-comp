@@ -85,7 +85,19 @@ pip install NEURON==8.1 dbbs-models==1.5.0rc0 arborize==2.0.0b8
 
 # Plotting
 
+The plotting script can be called as follows (module_names optional, if left out all plots are generated):
+
 ```
 python plot [module_name(s)]
 python build <format: html, svg, png> [module_name(s)]
 ```
+
+You can install the required dependencies as listed under step 6 above:
+```
+pip install NEURON==8.1 arborize==2.0.0b8 dbbs-models==1.5.0rc0 plotly pandas sklearn h5py arbor==0.6
+```
+pip install -e packages/bsb
+pip install -e packages/models
+pip install -e packages/catalogue
+pip install -e packages/arborize
+pip install -e packages/glia

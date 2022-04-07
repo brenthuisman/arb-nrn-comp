@@ -61,6 +61,7 @@ def _build_figure(plotting_module, fig, suffix=None, meta=None):
     fname = os.path.join(
         path, "figures", plotting_module.__figname__ + (f"_{suffix}" if suffix is not None else "") + format
     )
+    os.makedirs(os.path.join(path, "figures"), exist_ok=True)
     if format == ".html":
         fig.write_html(fname)
     else:
