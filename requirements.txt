@@ -1,9 +1,10 @@
 dbbs-mod-collection==2.2.0b1
 dbbs-models==2.0.0
+dbbs-catalogue==0.0.5
 arborize==2.0.3
 plotly==4.14.3
 nrn-subprocess==1.3.4
 kaleido==0.2.1
 neuron==8.0.0
 pandas
-arbor==0.5.2
+arbor==0.6
