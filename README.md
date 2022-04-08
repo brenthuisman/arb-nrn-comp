@@ -26,8 +26,8 @@ python plot <name1-of-file-in-plots-folder-without-extension> <name2> <name3>
 python plot
 # Write some plots to a certain format
 python build <format:html,jpg,svg,png,eps> <name1> <name2>
-# Write all the plots
-python build
+# Write all the plots to PNG
+python build png
 
 # Examples
 python plot spikes single_cell
