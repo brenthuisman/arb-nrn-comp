@@ -11,11 +11,22 @@ import pickle
 
 
 def plot():
-    arb_data = {}
-    pkl_data = {}
     with open("arb_sc.pkl", "rb") as f:
-        pkl_data = pickle.load(f)
+        arb_data = pickle.load(f)
+    with open("nrn_sc.pkl", "rb") as f:
+        nrn_data = pickle.load(f)
     return {
-        name: go.Figure(go.Scatter(x=data[0], y=data[1]))
-        for name, data in pkl_data.items()
+        name: go.Figure([
+            go.Scatter(
+                x=(data := arb_data[name])[0],
+                y=data[1],
+                name="Arbor",
+            ),
+            go.Scatter(
+                x=(data := nrn_data[name])[0],
+                y=data[1],
+                name="NEURON",
+            ),
+        ])
+        for name in arb_data.keys()
     }
