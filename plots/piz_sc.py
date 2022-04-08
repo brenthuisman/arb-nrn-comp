@@ -4,10 +4,6 @@ import numpy as np
 import os
 import time
 import pickle
-import dbbs_models
-import arbor
-from arbor import single_cell_model
-import pickle
 
 
 def plot():
