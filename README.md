@@ -1,6 +1,60 @@
 Compares all DBBS models in Arbor and NEURON
 
-# Replication
+# Local plotting replication
+
+Following these steps allows you to plot one, more or all the plots as seen in https://www.biorxiv.org/content/10.1101/2022.03.02.482285v1.full
+
+The plots use intermediate data, stored in pickles (a binary Python data format). The pickles reduce the dependencies required to run the plots,
+and drastically reduce the time spent to plot them. If you want to replicate the findings from start to finish, you'll have to follow the [Large scale simulation replication](#large-scale-simulation-replication) instructions, delete the pickles in your local repo, and replace the files in the `results` folder with your own results.
+
+1. Set up a plotting environment
+
+```
+cd $HOME
+python -m venv arbnrn-plotenv
+source arbnrn-plotenv/bin/activate
+pip install -r requirements.txt
+cd arbnrn-plotenv
+git clone git@github.com:Helveg/arbor --recurse-submodules
+cd arbor && git checkout aba80a93b169bee93aa693c0d612bd7f66b7e5dc && cd ..
+```
+
+2. Build `arbor`:
+
+```
+# Not required if you already have MPI libs installed.
+sudo apt update && sudo apt install libopenmpi-dev openmpi-bin
+mkdir arbor/build
+cd arbor/build
+cmake .. \
+  -DARB_WITH_MPI=ON \
+  -DARB_WITH_PROFILING=OFF \
+  -DARB_USE_BUNDLED_LIBS=ON \
+  -DCMAKE_INSTALL_PREFIX=$HOME/arbnrn-plotenv \
+  -DARB_WITH_PYTHON=ON \
+  -DARB_VECTORIZE=ON
+make install -j
+cd $HOME
+```
+
+3. You can now plot or write the plots to file using the `plot` and `build` wrappers, respectively, from the repo root:
+
+```
+# Plot some plots
+python plot <name1-of-file-in-plots-folder-without-extension> <name2> <name3>
+# Plot all the plots
+python plot
+# Write some plots to a certain format
+python build <format:html,jpg,svg,png,eps> <name1> <name2>
+# Write all the plots
+python build
+
+# Examples
+python plot spikes single_cell
+python build html
+```
+
+# Large scale simulation replication
 
 A no warranty list of steps to reproduce the findings in https://www.biorxiv.org/content/10.1101/2022.03.02.482285v1.full
 
