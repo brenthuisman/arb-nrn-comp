@@ -13,7 +13,7 @@ for name, model in vars(dbbs_models).items():
         print("Running", name, flush=True)
         cell = model()
         time = p.time
-        dbbs_models.test.quick_test(cell, duration=1000)
+        dbbs_models.test.quick_test(cell, duration=1000, temperature=32, dt=0.025)
         pkl_data[name] = (list(time), list(cell.Vm))
 with open("nrn_sc.pkl", "wb") as f:
     pickle.dump(pkl_data, f)
