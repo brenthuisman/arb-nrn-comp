@@ -1,12 +1,19 @@
 import plotly.graph_objs as go
-from pathlib import Path
-import numpy as np
 import os
-import time
 import pickle
 
+# You can toggle this flag to run the simulation scripts locally, note that this requires
+# the setup of the full simulation environment with Arbor, NEURON and specific patches of
+# the DBBS toolchain.
+run_locally = False
 
 def plot():
+    if run_locally:
+        # Run the remote script, locally
+        os.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "remote"))
+        # Importing the module runs the top level code, which rewrite the pickled data
+        import single_cell_val_arb, single_cell_val_nrn
+
     with open("arb_sc.pkl", "rb") as f:
         arb_data = pickle.load(f)
     with open("nrn_sc.pkl", "rb") as f:

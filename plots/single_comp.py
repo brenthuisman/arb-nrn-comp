@@ -1,6 +1,10 @@
 import plotly.graph_objs as go
 import os
+import pickle
 
+# You can toggle this flag to run the simulation scripts locally, note that this requires
+# the setup of the full simulation environment with Arbor, NEURON and specific patches of
+# the DBBS toolchain.
 run_locally = False
 
 def plot():
