@@ -1,8 +1,8 @@
 bsb==3.7.7
-plotly==4.14.3
+plotly==5.7.0
 kaleido==0.2.1
-pandas
-numpy
-scipy
-scikit-learn
-h5py
+pandas==1.4.2
+numpy==1.22.3
+scipy==1.8.0
+scikit-learn==1.0.2
+h5py==3.6.0
