@@ -1,5 +1,5 @@
 import plotly.graph_objs as go
-import os
+import os, sys
 import pickle
 
 # You can toggle this flag to run the simulation scripts locally, note that this requires
@@ -10,7 +10,7 @@ run_locally = False
 def plot():
     if run_locally:
         # Run the remote script, locally
-        os.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "remote"))
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "remote"))
         # Importing the module runs the top level code, which rewrite the pickled data
         import single_cell_val_arb, single_cell_val_nrn
 
