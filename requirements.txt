@@ -4,3 +4,5 @@ kaleido==0.2.1
 pandas
 numpy
 scipy
+scikit-learn
+h5py
