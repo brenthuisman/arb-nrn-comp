@@ -22,6 +22,8 @@ cd arbor && git checkout aba80a93b169bee93aa693c0d612bd7f66b7e5dc && cd ..
 2. Build `arbor`:
 
 ```
+# Not required if you already have MPI libs installed.
+sudo apt update && sudo apt install libopenmpi-dev openmpi-bin
 mkdir arbor/build
 cd arbor/build
 cmake .. \
