@@ -19,7 +19,22 @@ git clone git@github.com:Helveg/arbor --recurse-submodules
 cd arbor && git checkout aba80a93b169bee93aa693c0d612bd7f66b7e5dc && cd ..
 ```
 
-2. Build `arbor`, see (4) of the _Large scale simulation replication_ instructions.
+2. Build `arbor`:
+
+```
+mkdir arbor/build
+cd arbor/build
+cmake .. \
+  -DARB_WITH_MPI=ON \
+  -DARB_WITH_PROFILING=OFF \
+  -DARB_USE_BUNDLED_LIBS=ON \
+  -DCMAKE_INSTALL_PREFIX=$HOME/arbnrn-plotenv \
+  -DARB_WITH_PYTHON=ON \
+  -DARB_VECTORIZE=ON
+make install -j
+cd $HOME
+```
+
 3. You can now plot or write the plots to file using the `plot` and `build` wrappers, respectively, from the repo root:
 
 ```
