@@ -50,7 +50,7 @@ python build <format:html,jpg,svg,png,eps> <name1> <name2>
 python build
 
 # Examples
-python plot spikes
+python plot spikes single_cell
 python build html
 ```
 
