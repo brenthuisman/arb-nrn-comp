@@ -15,6 +15,7 @@ class Benchmark:
 
     def __post_init__(self):
         self.simulator = "neuron" if "nrn_" in self.name else "arbor"
+        self.size = "large" if self.distributed else "small"
         self.nodes = 20 if self.distributed else 1
         self.constraint = "gpu" if self.gpu else "mc"
         if "ACCOUNT" in os.environ:
@@ -26,23 +27,25 @@ class Benchmark:
 
     def fill_in(self, content):
         for k, v in vars(self).items():
-            content = content.replace(f"@@{k}@@", v)
+            content = content.replace(f"@@{k}@@", str(v).lower())
         return content
 
 benchmarks = [
-    Benchmark("arb_small", False, 1, 1, False)
+    Benchmark("arb_small", False, 1, 1, False),
+    Benchmark("nrn_small", False, 1, 1, False),
+    Benchmark("nrn_distr", True, 36, 1, False),
 ]
 
-root = Path(__file__).parent.parent
+root_folder = Path(__file__).parent.parent
 home_folder = Path(os.environ["HOME"])
-net_folder = root / "networks"
-templ_folder = root / "templates"
-deploy_folder = root / "arb-nrn-benchmarks-rdsea-2022"
+net_folder = root_folder / "networks"
+templ_folder = root_folder / "templates"
+deploy_folder = home_folder / "arb-nrn-benchmarks-rdsea-2022"
 model_folder = deploy_folder / "models"
-jobs_folder = deploy_folder / "jobs"
+job_folder = deploy_folder / "jobs"
 cfg_folder = deploy_folder / "configs"
 model_folder.mkdir(parents=True, exist_ok=True)
-jobs_folder.mkdir(parents=True, exist_ok=True)
+job_folder.mkdir(parents=True, exist_ok=True)
 cfg_folder.mkdir(parents=True, exist_ok=True)
 
 def reconfigure(h, cfg):
@@ -54,7 +57,7 @@ for benchmark in benchmarks:
     cfg_file = cfg_folder / f"{benchmark.name}.json"
     job_file = job_folder / f"{benchmark.name}.sh"
     net_file = net_folder / f"{benchmark.size}.hdf5"
-    out_file = deploy_folder / f"{benchmark.name}.hdf5"
+    out_file = model_folder / f"{benchmark.name}.hdf5"
     print("Name:", benchmark.name)
     print("Simulator:", benchmark.simulator)
     print("GPU:", benchmark.gpu)
