@@ -328,13 +328,13 @@
     }
   },
   "simulations": {
-    "arb_dist": {
+    "@@name@@": {
       "simulator": "arbor",
       "duration": 1000,
       "resolution": 0.025,
       "temperature": 32,
-      "gpu": false,
-      "threads": 18,
+      "gpu": @@gpu@@,
+      "threads": @@threads@@,
       "cell_models": {
         "mossy_fibers": {
           "relay": true
@@ -413,7 +413,7 @@
         }
       },
       "devices": {
-	
+
       }
     }
   }

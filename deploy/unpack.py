@@ -16,6 +16,13 @@ class Benchmark:
     def __post_init__(self):
         self.simulator = "neuron" if "nrn_" in self.name else "arbor"
         self.nodes = 20 if self.distributed else 1
+        self.constraint = "gpu" if self.gpu else "mc"
+        if "ACCOUNT" in os.environ:
+            self.account = os.environ["ACCOUNT"]
+        elif self.gpu:
+            self.account = os.environ["GPU_ACCOUNT"]
+        else:
+            self.account = os.environ["CPU_ACCOUNT"]
 
     def fill_in(self, content):
         for k, v in vars(self).items():
@@ -29,8 +36,12 @@ benchmarks = [
 root = Path(__file__).parent.parent
 home_folder = Path(os.environ["HOME"])
 net_folder = root / "networks"
-jobs_folder = root / "jobs"
-cfg_folder = root / "configs"
+templ_folder = root / "templates"
+deploy_folder = root / "arb-nrn-benchmarks-rdsea-2022"
+model_folder = deploy_folder / "models"
+jobs_folder = deploy_folder / "jobs"
+cfg_folder = deploy_folder / "configs"
+model_folder.mkdir(parents=True, exist_ok=True)
 jobs_folder.mkdir(parents=True, exist_ok=True)
 cfg_folder.mkdir(parents=True, exist_ok=True)
 
@@ -40,17 +51,28 @@ def reconfigure(h, cfg):
             f.attrs["configuration_string"] = g.read()
 
 for benchmark in benchmarks:
-  cfg_file = cfg_folder / (benchmark.name + ".json")
-  net_file = net_folder / f"{benchmark.size}.hdf5"
-  out_h5 = home_folder / f"{benchmark.name}.hdf5"
-  print("Name:", benchmark.name)
-  print("Simulator:", benchmark.simulator)
-  print("GPU:", benchmark.gpu)
-  if benchmark.distributed:
-      print("Distr. scheme:")
-      print(" ", benchmark.nodes, "nodes")
-      print(" ", benchmark.mpi_per_node, "processes per node")
-      print(" ", benchmark.threads, "threads per process")
-  print("Deploying", cfg_file)
-  shutil.copy(net_file, out_h5)
-  reconfigure(out_h5, cfg_file)
+    cfg_file = cfg_folder / f"{benchmark.name}.json"
+    job_file = job_folder / f"{benchmark.name}.sh"
+    net_file = net_folder / f"{benchmark.size}.hdf5"
+    out_file = deploy_folder / f"{benchmark.name}.hdf5"
+    print("Name:", benchmark.name)
+    print("Simulator:", benchmark.simulator)
+    print("GPU:", benchmark.gpu)
+    if benchmark.distributed:
+        print("Distr. scheme:")
+        print(" ", benchmark.nodes, "nodes")
+        print(" ", benchmark.mpi_per_node, "processes per node")
+        print(" ", benchmark.threads, "threads per process")
+    print("Creating", cfg_file)
+    with open(cfg_file, "w") as c:
+        with open(templ_folder / f"{benchmark.simulator}.json", "r") as t:
+            c.write(benchmark.fill_in(t.read()))
+
+    print("Creating", job_file)
+    with open(job_file, "w") as j:
+        with open(templ_folder / f"{benchmark.simulator}.sh", "r") as t:
+            j.write(benchmark.fill_in(t.read()))
+
+    print("Deploying", cfg_file)
+    shutil.copy(net_file, out_file)
+    reconfigure(out_file, cfg_file)

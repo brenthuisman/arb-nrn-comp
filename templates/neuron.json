@@ -328,95 +328,7 @@
     }
   },
   "simulations": {
-    "arbor_gpu": {
-      "simulator": "arbor",
-      "duration": 1000,
-      "resolution": 0.025,
-      "temperature": 32,
-      "gpu": false,
-      "threads": 1,
-      "cell_models": {
-        "mossy_fibers": {
-          "relay": true
-        },
-        "glomerulus": {
-          "relay": true
-        },
-        "granule_cell": {
-          "model": "dbbs_models.GranuleCell"
-        },
-        "golgi_cell": {
-          "model": "dbbs_models.GolgiCell"
-        },
-        "purkinje_cell": {
-          "model": "dbbs_models.PurkinjeCell"
-        },
-        "basket_cell": {
-          "model": "dbbs_models.BasketCell"
-        },
-        "stellate_cell": {
-          "model": "dbbs_models.StellateCell"
-        }
-      },
-      "connection_models": {
-        "mossy_to_glomerulus": {
-          "weight": 0.00001
-        },
-        "glomerulus_to_granule": {
-          "weight": 0.00001
-        },
-        "golgi_to_glomerulus": {
-          "weight": 0.00001
-        },
-        "glomerulus_to_golgi": {
-          "weight": 0.00001
-        },
-        "golgi_to_granule": {
-          "weight": 0.00001
-        },
-        "golgi_to_golgi": {
-          "weight": -0.00001
-        },
-        "gap_goc": {
-          "weight": 0.00001,
-          "gap": true
-        },
-        "ascending_axon_to_golgi": {
-          "weight": 0.00001
-        },
-        "parallel_fiber_to_golgi": {
-          "weight": 0.00001
-        },
-        "ascending_axon_to_purkinje": {
-          "weight": 0.00001
-        },
-        "parallel_fiber_to_purkinje": {
-          "weight": 0.00001
-        },
-        "parallel_fiber_to_basket": {
-          "weight": 0.00001
-        },
-        "parallel_fiber_to_stellate": {
-          "weight": 0.00001
-        },
-        "stellate_to_purkinje": {
-          "weight": -0.00001
-        },
-        "basket_to_purkinje": {
-          "weight": -0.00001
-        },
-        "stellate_to_stellate": {
-          "weight": -0.00001
-        },
-        "basket_to_basket": {
-          "weight": -0.00001
-        }
-      },
-      "devices": {
-	
-      }
-    },
-    "undistributed": {
+    "@@name@@": {
       "simulator": "neuron",
       "resolution": 0.025,
       "duration": 1000,
@@ -440,10 +352,10 @@
           "model": "dbbs_models.PurkinjeCell",
           "record_spikes": true
         },
-      	"basket_cell": {
-      	  "model": "dbbs_models.BasketCell",
-      	  "record_spikes": true
-      	},
+        "basket_cell": {
+          "model": "dbbs_models.BasketCell",
+          "record_spikes": true
+        },
         "stellate_cell": {
           "model": "dbbs_models.StellateCell",
           "record_spikes": true
@@ -459,13 +371,13 @@
         "mossy_to_glomerulus": {
           "synapses": []
         },
-      	"golgi_to_golgi": {
+        "golgi_to_golgi": {
           "synapses": ["GABA"]
         },
-	"gap_goc": {
-	  "synapses": ["gap"],
-	  "source": "vgap"
-	},
+        "gap_goc": {
+          "synapses": ["gap"],
+          "source": "vgap"
+        },
         "ascending_axon_to_purkinje": {
           "synapses": ["AMPA"]
         },
@@ -481,15 +393,15 @@
         "parallel_fiber_to_purkinje": {
           "synapses": ["AMPA"]
         },
-	"parallel_fiber_to_basket": {
-	  "synapses":["AMPA", "NMDA"]
-	},
+        "parallel_fiber_to_basket": {
+          "synapses":["AMPA", "NMDA"]
+        },
         "parallel_fiber_to_stellate": {
           "synapses": ["AMPA", "NMDA"]
         },
-	"basket_to_purkinje": {
-	  "synapses": ["GABA"]
-	},
+        "basket_to_purkinje": {
+          "synapses": ["GABA"]
+        },
         "stellate_to_purkinje": {
           "synapses": ["GABA"]
         },
@@ -501,7 +413,7 @@
         }
       },
       "devices": {
-        
+
       }
     }
   }
