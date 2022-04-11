@@ -40,6 +40,8 @@ A no warranty list of steps to reproduce the findings in https://www.biorxiv.org
 
 These steps work on PizDaint, which uses [`slurm`](https://slurm.schedmd.com/documentation.html) for job management and [`modules`](http://modules.sourceforge.net/) for environment management.
 
+## Setup
+
 1. Create separate environments for the Arbor and NEURON toolchains
 
 ```
@@ -134,4 +136,19 @@ pip install -e patch
 ```
 # This needs to point to the libmpich.so you want to use.
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/cray/pe/mpt/7.7.18/gni/mpich-crayclang/10.0/lib
+```
+
+
+## Deployment
+
+Before first use, run the deployment scripts to create all of the required network model files.
+
+```
+python deploy/unpack.py
+```
+
+## Benchmarks
+
+```
+python run/all.py
 ```
