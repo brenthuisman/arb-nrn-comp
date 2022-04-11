@@ -141,7 +141,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/cray/pe/mpt/7.7.18/gni/mpich-craycl
 
 ## Deployment
 
-Before first use, run the deployment scripts to create all of the required network model files.
+Before first use, run the deployment scripts to create all of the required network model files, configuration files and jobscripts.
 
 ```
 python deploy/unpack.py
