@@ -58,6 +58,7 @@ for benchmark in benchmarks:
     job_file = job_folder / f"{benchmark.name}.sh"
     net_file = net_folder / f"{benchmark.size}.hdf5"
     out_file = model_folder / f"{benchmark.name}.hdf5"
+    print("---")
     print("Name:", benchmark.name)
     print("Simulator:", benchmark.simulator)
     print("GPU:", benchmark.gpu)
@@ -79,3 +80,4 @@ for benchmark in benchmarks:
     print("Deploying", cfg_file)
     shutil.copy(net_file, out_file)
     reconfigure(out_file, cfg_file)
+    print()
