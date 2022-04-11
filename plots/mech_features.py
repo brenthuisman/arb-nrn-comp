@@ -84,7 +84,7 @@ def mech_group_max(jobs, speedup, group):
 
 def plot():
     mechgroups = dict(zip(mechs, groups))
-    bigger_path = Path(__file__).parent.parent / "results" / "bigger_test"
+    bigger_path = Path(__file__).parent.parent / "results"
     matrix_arb = np.load(str(bigger_path / "arbmatrix.npy"))
     mean_arb = np.where(
         np.isnan(matrix_arb[:, -1]),

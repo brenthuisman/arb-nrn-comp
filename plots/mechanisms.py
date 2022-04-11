@@ -5,7 +5,7 @@ import math
 
 
 def plot():
-    bigger_path = Path(__file__).parent.parent / "results" / "bigger_test"
+    bigger_path = Path(__file__).parent.parent / "results"
     matrix = np.load(str(bigger_path / "arbmatrix.npy"))
     m = np.mean(matrix, axis=1)
     print(matrix.shape, m.shape)
