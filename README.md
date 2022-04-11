@@ -104,15 +104,34 @@ cd $HOME
 
 You can now replicate Arbor instructions.
 
-5. Activate the NEURON environment
+5. Activate NEURON environment
 
 ```
 source $HOME/nrnenv/bin/activate
 ```
 
-6. Install NEURON and the toolchain:
+6. Clone tools
 
 ```
-pip install -e $HOME/arbenv/bsb[neuron]
-pip install NEURON==8.1 dbbs-models==1.5.0rc0 arborize==2.0.0b8
+cd $HOME/nrnenv
+git clone git@github.com:Helveg/patch
+cd patch && git checkout 087a0188d8c9b4e06295dcf6362504cf81d8a414 && cd ..
+git clone git@github.com:dbbs-lab/dbbs-mod-collection
+cd dbbs-mod-collection && git checkout c2fa5783d3d77786c23ec03978d15ad7e461398d && cd ..
+```
+
+7. Install tools
+
+```
+pip install -e $HOME/arbenv/bsb
+CC=cc CXX=CC pip install mpi4py NEURON==8.1 dbbs-models==1.5.0rc0 arborize==2.0.0b8
+pip install -e dbbs-mod-collection
+pip install -e patch
+```
+
+8. Every time you open a new session, run these commands:
+
+```
+# This needs to point to the libmpich.so you want to use.
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/cray/pe/mpt/7.7.18/gni/mpich-crayclang/10.0/lib
 ```
