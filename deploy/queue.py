@@ -37,7 +37,7 @@ jobscripts = get_jobscripts()
 pattern = get_re(*args[1:])
 to_run = {m.groups(1)[0]: job for job in jobscripts if (m := pattern.match(job))}
 
-print("Queue", xtime, "times")
+print("Queue", xtime, "times:")
 print("\n".join(f" {x}" for x in to_run))
 
 processes = {
