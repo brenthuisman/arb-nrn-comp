@@ -149,6 +149,45 @@ python deploy/unpack.py
 
 ## Benchmarks
 
+After deployment, any of the jobscripts can be queued manually by calling them directly with `sbatch`:
+
 ```
-python run/all.py
+sbatch $HOME/arb-nrn-benchmarks-rdsea-2022/jobs/nrn_distr.sh
 ```
+
+This requires you to write down the job id, and parse the logs manually for the time results, and append them to the job results CSV, `jobs.csv`.
+
+It's better to automate this process by using the `queue.py` script, which will write down the job ids and names in `jobids.csv`:
+
+```
+cd $SCRATCH
+# Queue all benchmarks, 10 times (default)
+python $HOME/arb-nrn-comp/deploy/queue.py
+# Queue the `nrn_distr` and `arb_distr`, 50 times
+python $HOME/arb-nrn-comp/deploy/queue.py nrn_distr arb_distr x50
+```
+
+Then, after the jobs have completed, you can use `deploy/parse.py` to parse the logs:
+
+```
+python $HOME/arb-nrn-comp/deploy/parse.py my_own_results jobids.csv .
+```
+
+This will create a subfolder (named "my_own_results") in the `results` folder of the git repo,
+with the logs and a `jobs.csv` file with the results. You can then move `jobs.csv` to the root
+of the repo to overwrite the results. The logs need to be located under `$SCRATCH` (default on
+PizDaint, but you can specify any path).
+
+### Reproduction
+
+To reproduce the benchmarks run the following commands:
+
+```
+cd $SCRATCH
+python $HOME/arb-nrn-comp/deploy/queue.py
+python $HOME/arb-nrn-comp/deploy/parse.py job_results jobids.csv .
+cd $HOME/arb-nrn-comp
+cp results/job_results/jobs.csv jobs.csv
+```
+
+You can now plot all of the benchmark related figures with your own results.
