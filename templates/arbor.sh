@@ -13,5 +13,8 @@
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export HDF5_USE_FILE_LOCKING=FALSE
 source $HOME/arbenv/bin/activate
+module load gcc/9.3.0
+module load cudatoolkit
+module load PrgEnv-gnu
 
 srun bsb -v 4 simulate @@name@@ --hdf5=$HOME/arb-nrn-benchmarks-rdsea-2022/models/@@name@@.hdf5
