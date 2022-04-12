@@ -12,11 +12,13 @@ class Benchmark:
     threads: int
     gpu: bool
     time: str = "10:00:00"
+    nodes: int = None
 
     def __post_init__(self):
         self.simulator = "neuron" if "nrn_" in self.name else "arbor"
         self.size = "large" if self.distributed else "small"
-        self.nodes = 20 if self.distributed else 1
+        if self.nodes is None:
+            self.nodes = 20 if self.distributed else 1
         self.constraint = "gpu" if self.gpu else "mc"
         if "ACCOUNT" in os.environ:
             self.account = os.environ["ACCOUNT"]
@@ -32,7 +34,27 @@ class Benchmark:
 
 benchmarks = [
     Benchmark("arb_small", False, 1, 1, False),
+    Benchmark("arb_small_mpi", False, 36, 1, False),
+    Benchmark("arb_small_mt", False, 1, 36, False),
+    Benchmark("arb_small_ht", False, 1, 72, False),
+    Benchmark("arb_small_gpu", False, 1, 12, True),
+    Benchmark("arb_small_sock", False, 1, 18, True),
+
+    Benchmark("arb_distr", True, 2, 18, False),
+    Benchmark("arb_distr_mpi", True, 36, 1, False),
+    Benchmark("arb_distr_ht", True, 2, 36, False),
+    Benchmark("arb_gpu_20", True, 2, 12, True),
+    Benchmark("arb_gpu_16", True, 2, 12, True, nodes=16),
+    Benchmark("arb_gpu_12", True, 2, 12, True, nodes=12),
+    Benchmark("arb_gpu_10", True, 2, 12, True, nodes=10),
+    Benchmark("arb_gpu_8", True, 2, 12, True, nodes=8),
+    Benchmark("arb_gpu_6", True, 2, 12, True, nodes=6),
+    Benchmark("arb_gpu_4", True, 2, 12, True, nodes=4),
+    Benchmark("arb_gpu_2", True, 2, 12, True, nodes=2),
+    Benchmark("arb_gpu_1", True, 2, 12, True, nodes=1),
+
     Benchmark("nrn_small", False, 1, 1, False),
+    Benchmark("nrn_sock", False, 18, 1, False),
     Benchmark("nrn_distr", True, 36, 1, False),
 ]
 
