@@ -204,3 +204,23 @@ cp results/job_results/jobs.csv jobs.csv
 ```
 
 You can now plot all of the benchmark related figures with your own results.
+
+# Single comp and cell replication
+
+The single comp and cell results can be replicated in the same environment as the large scale simulations:
+
+```
+cd $HOME
+source arbenv/bin/activate
+pip install -e nrnenv/dbbs-mod-collection
+pip install -e nrnenv/patch
+cd arb-nrn-comp
+python remote/single_cell_val_arb.py
+python remote/single_comp_sim.py
+source ../nrnenv/bin/activate
+python remote/single_cell_val_nrn.py
+```
+
+You should now have 3 new versions of the `arb_sc.pkl`, `single_comp.pkl` and `nrn_sc.pkl` files. 
+You can re-plot any of the figures to view them, or transfer them from your sim env to your local
+plotting env.
