@@ -33,15 +33,15 @@ class Benchmark:
         return content
 
 benchmarks = [
-    Benchmark("arb_small", False, 1, 1, False),
+    Benchmark("arb_small_st", False, 1, 1, False),
     Benchmark("arb_small_mpi", False, 36, 1, False),
     Benchmark("arb_small_mt", False, 1, 36, False),
     Benchmark("arb_small_ht", False, 1, 72, False),
     Benchmark("arb_small_gpu", False, 1, 12, True),
     Benchmark("arb_small_sock", False, 1, 18, True),
 
-    Benchmark("arb_distr", True, 2, 18, False),
     Benchmark("arb_distr_mpi", True, 36, 1, False),
+    Benchmark("arb_distr_mt", True, 2, 18, False),
     Benchmark("arb_distr_ht", True, 2, 36, False),
     Benchmark("arb_gpu_20", True, 2, 12, True),
     Benchmark("arb_gpu_16", True, 2, 12, True, nodes=16),
