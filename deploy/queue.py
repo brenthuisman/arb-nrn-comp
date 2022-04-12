@@ -16,7 +16,6 @@ def get_jobscripts():
     return glob(str(job_folder / "*.sh"))
 
 def get_re(*filters):
-    print("pattern:", "^.*([^\/]*(" + ("|".join(filters)) + ")[^\/]*)\.sh$")
     return re.compile("^.*([^\/]*(" + ("|".join(filters)) + ")[^\/]*)\.sh$")
 
 def get_process_id(pipes):
