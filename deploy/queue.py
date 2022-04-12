@@ -31,7 +31,7 @@ def get_process_error(pipes):
     return err
 
 args = sys.argv.copy()
-times = [int(x[2:]) for x in args if x.startswith("x")]
+times = [int(x[1:]) for x in args if x.startswith("x")]
 xtime = times[-1] if len(times) > 0 else 10
 args = [x for x in args if not x.startswith("x")]
 jobscripts = get_jobscripts()
