@@ -10,10 +10,12 @@ def plot(run_locally=False):
         # Run the remote script, locally
         sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "remote"))
         # Importing the module runs the top level code, which rewrite the pickled data
-        import single_comp_sim
+        import single_comp_arb, single_comp_nrn
 
-    with open("single_comp.pkl", "rb") as f:
-        (arb_mechs, arb_samples), (time, mechs) = pickle.load(f)
+    with open("single_comp_arb.pkl", "rb") as f:
+        (arb_mechs, arb_samples) = pickle.load(f)
+    with open("single_comp_nrn.pkl", "rb") as f:
+        (time, mechs) = pickle.load(f)
     return go.Figure(
         [
             *[
