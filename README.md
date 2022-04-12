@@ -214,6 +214,7 @@ cd $HOME
 source arbenv/bin/activate
 pip install -e nrnenv/dbbs-mod-collection
 pip install -e nrnenv/patch
+pip install neuron==8.1
 cd arb-nrn-comp
 python remote/single_cell_val_arb.py
 python remote/single_comp_sim.py
