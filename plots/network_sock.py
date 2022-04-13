@@ -30,12 +30,11 @@ def plot():
     benches["tts"] *= 10
     benches_err["tts"] *= 10
     benches.loc[13:14, "bench_name"] = ("Arbor", "NEURON")
-    print(benches["e"], benches_err["e"])
     spacebar = (0, 6, 9, 10, 15)
     return {
         cat: go.Figure(
             data=[
-                go.Bar(
+                go.Scatter(
                     x=benches["bench_name"].loc[[14, 13]],
                     y=benches[cat].loc[[14, 13]],
                     # text=["" if int(n) == 1 else (" " * spacebar[len(str(int(n)))] + f"x{int(n)}") for n in round(benches[cat].loc[14] / benches[cat].loc[[14, 13]])],
@@ -43,7 +42,7 @@ def plot():
                         type="data",
                         array=benches_err[cat].loc[[14, 13]],
                     ),
-                    textposition="auto",
+                    mode="markers",
                     marker_color=["rgb(31, 119, 180)", "rgb(255,127,14)"],
                 )
             ],

@@ -39,28 +39,28 @@ def plot():
     return {
         cat: go.Figure(
             data=[
-                go.Bar(
+                go.Scatter(
                     x=benches["bench_name"].loc[loc_a],
                     y=benches[cat].loc[loc_a],
                     error_y=dict(
                         type="data",
                         array=benches_err[cat].loc[loc_a],
                     ),
-                    width=0.8,
+                    mode="markers",
                     marker_color="rgb(255,127,14)",
                     name="Arbor 1 GPU/node",
                 ),
             ]
             + (
                 [
-                    go.Bar(
+                    go.Scatter(
                         x=benches["bench_name"].loc[loc_n],
                         y=benches[cat].loc[loc_n],
                         error_y=dict(
                             type="data",
                             array=benches_err[cat].loc[loc_n],
                         ),
-                        width=0.8,
+                        mode="markers",
                         marker_color="rgb(31, 119, 180)",
                         name="NEURON 36 CPU/node",
                     ),
