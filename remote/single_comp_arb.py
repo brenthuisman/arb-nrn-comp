@@ -1,4 +1,4 @@
-import glia, glia.library
+import glia
 import pickle
 import arbor
 
