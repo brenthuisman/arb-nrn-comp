@@ -43,8 +43,11 @@ def plot():
                     error_y=dict(
                         type="data",
                         array=benches_err[cat].loc[6:9],
+                        thickness=5,
+                        width=15,
                     ),
                     mode="markers",
+                    marker = dict(size = 15),
                     marker_color=[
                         "rgb(31, 119, 180)",
                         "rgb(255,127,14)",

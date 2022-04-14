@@ -24,14 +24,17 @@ def plot(run_locally=False):
     clabels = ["Granule", "Golgi", "Purkinje", "Basket", "Stellate"]
     return go.Figure(
         data=[
-            go.Bar(
+            go.Scatter(
                 x=clabels,
                 y=[np.mean(data[cname]) / 10 for cname in cnames],
                 error_y=dict(
                     type="data",
                     array=[np.std(data[cname]) / 10 for cname in cnames],
+                    thickness=5,
+                    width=15,
                 ),
-                textposition="auto",
+                mode="markers",
+                marker = dict(size = 15),
                 name=sim,
             )
             for sim, data in zip(("NEURON", "Arbor"), (nrn_data, arb_data))
