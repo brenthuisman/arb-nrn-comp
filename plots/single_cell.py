@@ -15,9 +15,9 @@ def plot(run_locally=False):
         import single_cell_time_arb, single_cell_time_nrn
 
     arb_data = {}
-    with open("nrn_single_cell.pkl", "rb") as f:
+    with open("nrn_sc_time.pkl", "rb") as f:
         nrn_data = pickle.load(f)
-    with open("arb_single_cell.pkl", "rb") as f:
+    with open("arb_sc_time.pkl", "rb") as f:
         arb_data = pickle.load(f)
     # Change the bar mode
     cnames = ["GranuleCell", "GolgiCell", "PurkinjeCell", "BasketCell", "StellateCell"]

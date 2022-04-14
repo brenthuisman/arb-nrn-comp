@@ -17,5 +17,5 @@ for name, model in vars(dbbs_models).items():
             dbbs_models.test.quick_test(cell, duration=10)
             nrn_data[name].append(time.time() - t)
 
-with open("nrn_single_cell.pkl", "wb") as f:
+with open("nrn_sc_time.pkl", "wb") as f:
     pickle.dump(nrn_data, f)

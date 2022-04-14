@@ -18,5 +18,5 @@ for name, model in vars(dbbs_models).items():
             arb_model.run(10, dt=0.025)
             arb_data[name].append(time.time() - t)
 
-with open("arb_single_cell.pkl", "wb") as f:
+with open("arb_sc_time.pkl", "wb") as f:
     pickle.dump(arb_data, f)
