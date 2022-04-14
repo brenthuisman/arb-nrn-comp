@@ -69,9 +69,9 @@ cd bsb && git checkout 1cf5a247927b52a54f870f3f2680cd9f947a8d3f && cd ..
 git clone git@github.com:dbbs-lab/catalogue
 cd catalogue && git checkout eb2eaee1d0563dfdca0692514ae2e25650578156 && cd ..
 git clone git@github.com:dbbs-lab/glia
-cd glia && git checkout 5442e9e1485cab643b4a422449f338e7c6e8b5b5 && cd ..
+cd glia && git checkout 44adc91575f15a98813cd69a43a7e34d0a63b570 && cd ..
 git clone git@github.com:dbbs-lab/models
-cd models && git checkout 5174d0e41efcb44c605f8e08992a6002733740dd && cd ..
+cd models && git checkout dfa87f6438d2a9ac9d30a263df628060ac0bf70c && cd ..
 ```
 
 3. Install the Python tools (in this order!)
