@@ -17,17 +17,24 @@ def plot(run_locally=False):
     with open("nrn_sc.pkl", "rb") as f:
         nrn_data = pickle.load(f)
     return {
-        name: go.Figure([
-            go.Scatter(
-                x=(data := arb_data[name])[0],
-                y=data[1],
-                name="Arbor",
-            ),
-            go.Scatter(
-                x=(data := nrn_data[name])[0],
-                y=data[1],
-                name="NEURON",
-            ),
-        ])
+        name: go.Figure(
+            [
+                go.Scatter(
+                    x=(data := arb_data[name])[0],
+                    y=data[1],
+                    name="Arbor",
+                ),
+                go.Scatter(
+                    x=(data := nrn_data[name])[0],
+                    y=data[1],
+                    name="NEURON",
+                ),
+            ],
+            layout=dict(
+                title_text=name,
+                yaxis_title="Vm (mV)",
+                xaxis_title="Time (ms)"
+            )
+        )
         for name in arb_data.keys()
     }
