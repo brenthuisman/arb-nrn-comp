@@ -2,7 +2,10 @@ import plotly.graph_objs as go
 from pathlib import Path
 import numpy as np
 import pandas as pd
+from scipy.optimize import curve_fit
 
+def func(x, a, b):
+    return a * b / x
 
 def plot():
     job_data = pd.read_csv("jobs.csv")
@@ -57,13 +60,15 @@ def plot():
                 go.Scatter(
                     name='Arbor expected linearity',
                     x=benches["bench_name"].loc[loc_a],
-                    # y=[print(a) for a in np.log(benches[cat].loc[loc_a].astype(float))],
-                    # y=np.log(np.array(benches[cat].loc[loc_a]).astype(float)[1]),
-                    y=10**( -np.log10(np.array(benches[cat].loc[loc_a]).astype(float)[1])
-                            /np.log10(np.array(benches[cat].loc[loc_a]).astype(float)[0])
-                            *np.log10(np.array(benches["bench_name"].loc[loc_a]).astype(float))
-                            +np.log10(np.array(benches[cat].loc[loc_a]).astype(float)[0])
-                            ),
+                    # y=10**( -np.log10(np.array(benches[cat].loc[loc_a]).astype(float)[1])
+                    #         /np.log10(np.array(benches[cat].loc[loc_a]).astype(float)[0])
+                    #         *np.log10(np.array(benches["bench_name"].loc[loc_a]).astype(float))
+                    #         +np.log10(np.array(benches[cat].loc[loc_a]).astype(float)[0])
+                    #         ),
+                    y = np.array(benches[cat].loc[loc_a]).astype(float)[0]
+                        +(np.array(benches[cat].loc[loc_a]).astype(float)[1]
+                        /np.array(benches[cat].loc[loc_a]).astype(float)[0])
+                        /np.array(benches["bench_name"].loc[loc_a]).astype(float),
                     mode='lines',
                     line_color="black"
                 ),
