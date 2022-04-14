@@ -3,6 +3,7 @@ import os, sys
 import pickle
 import numpy as np
 from scipy.signal import find_peaks
+from plotly.subplots import make_subplots
 
 # You can toggle this flag to run the simulation scripts locally, note that this requires
 # the setup of the full simulation environment with Arbor, NEURON and specific patches of
@@ -20,7 +21,18 @@ def plot(run_locally=False):
         nrn_data = pickle.load(f)
 
     figs = {}
+    fig = make_subplots(
+        rows=2,
+        cols=2,
+        subplot_titles=("Stellate cell", "Basket cell", "Golgi cell", "Purkinje cell"),
+        x_title="Spike pair",
+        y_title="Interspike interval (ms)"
+    )
+    fig.update_layout(title="Single cell ISI")
+    ctr = 0
     for name, (nrn_t, nrn_v), (arb_t, arb_v) in ((name, nrn_data[name], arb_data[name]) for name in arb_data.keys()):
+        if name == "GranuleCell":
+            continue
         data = []
         for l, s, dt in (("arbor", arb_v, 0.1), ("neuron", nrn_v, 0.025)):
             s = np.array(s)
@@ -34,6 +46,8 @@ def plot(run_locally=False):
                     mode="lines+markers",
                 ),
             )
+        fig.add_traces(data, rows=(ctr // 2) + 1, cols=(ctr % 2) + 1)
+        ctr += 1
         figs[name] = go.Figure(
             data=data,
             layout=dict(
@@ -44,4 +58,4 @@ def plot(run_locally=False):
             ),
         )
 
-    return figs
+    return fig

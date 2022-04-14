@@ -16,8 +16,17 @@ def plot(run_locally=False):
         arb_data = pickle.load(f)
     with open("nrn_sc.pkl", "rb") as f:
         nrn_data = pickle.load(f)
-    return {
-        name: go.Figure(
+    fig = go.Figure().set_subplots(
+        rows=2,
+        cols=2,
+        subplot_titles=("Stellate cell", "Basket cell", "Golgi cell", "Purkinje cell"),
+        y_title="Vm (mV)",
+        x_title="Time (ms)"
+    )
+    fig.update_layout(title="Single cell Vm")
+    ctr = 0
+    for name in arb_data.keys():
+        fig.add_traces(
             [
                 go.Scatter(
                     x=(data := arb_data[name])[0],
@@ -30,11 +39,9 @@ def plot(run_locally=False):
                     name="NEURON",
                 ),
             ],
-            layout=dict(
-                title_text=name,
-                yaxis_title="Vm (mV)",
-                xaxis_title="Time (ms)"
-            )
+            rows=(ctr // 2) + 1, cols=(ctr % 2) + 1
         )
-        for name in arb_data.keys()
-    }
+        if name != "GranuleCell":
+            ctr += 1
+
+    return fig
