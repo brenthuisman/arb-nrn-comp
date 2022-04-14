@@ -51,6 +51,7 @@ def plot():
             ],
             layout=dict(
                 barmode="group",
+                yaxis_rangemode="tozero",
                 yaxis_title=title,
             ),
         )
