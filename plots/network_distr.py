@@ -57,6 +57,7 @@ def plot():
                 barmode="group",
                 yaxis_title=title,
                 yaxis_type="log",
+                yaxis_rangemode="tozero",
                 xaxis_tickangle=30,
             ),
         )
