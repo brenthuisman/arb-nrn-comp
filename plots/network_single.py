@@ -46,6 +46,13 @@ def plot():
                         array=benches_err[cat].loc[1:5],
                         thickness=5,
                         width=15,
+                        # color=[ #terrible plotly does not let you set colors per datapoints
+                        #     "rgb(31, 119, 180)",
+                        #     "rgb(255,127,14)",
+                        #     "rgb(255,127,14)",
+                        #     "rgb(255,127,14)",
+                        #     "rgb(255,127,14)",
+                        # ],
                     ),
                     mode="markers",
                     marker = dict(size = 15),

@@ -42,12 +42,12 @@ def plot():
                 go.Scatter(
                     x=benches["bench_name"].loc[loc_a],
                     y=benches[cat].loc[loc_a],
-                    # error_y=dict(
-                    #     type="data",
-                    #     array=benches_err[cat].loc[loc_a],
-                    #     thickness=5,
-                    #     width=15,
-                    # ),
+                    error_y=dict(
+                        type="data",
+                        array=benches_err[cat].loc[loc_a],
+                        thickness=5,
+                        width=15,
+                    ),
                     mode="lines",
                     # marker = dict(size = 15),
                     # marker_color="rgb(255,127,14)",
@@ -55,30 +55,23 @@ def plot():
                     name="Arbor 1 GPU/node",
                 ),
                 go.Scatter(
-                    name='Upper Bound',
+                    name='Arbor expected linearity',
                     x=benches["bench_name"].loc[loc_a],
-                    y=benches[cat].loc[loc_a]+benches_err[cat].loc[loc_a],
+                    # y=[print(a) for a in np.log(benches[cat].loc[loc_a].astype(float))],
+                    # y=np.log(np.array(benches[cat].loc[loc_a]).astype(float)[1]),
+                    y=10**( -np.log10(np.array(benches[cat].loc[loc_a]).astype(float)[1])
+                            /np.log10(np.array(benches[cat].loc[loc_a]).astype(float)[0])
+                            *np.log10(np.array(benches["bench_name"].loc[loc_a]).astype(float))
+                            +np.log10(np.array(benches[cat].loc[loc_a]).astype(float)[0])
+                            ),
                     mode='lines',
-                    marker=dict(color="#444"),
-                    line=dict(width=0),
-                    showlegend=False
+                    line_color="black"
                 ),
-                go.Scatter(
-                    name='Lower Bound',
-                    x=benches["bench_name"].loc[loc_a],
-                    y=benches[cat].loc[loc_a]-benches_err[cat].loc[loc_a][::-1],
-                    marker=dict(color="#444"),
-                    line=dict(width=0),
-                    mode='lines',
-                    fillcolor='rgba(255,127,14, 0.3)',
-                    fill='tonexty',
-                    showlegend=False
-                )
             ]
             + (
                 [
                     go.Scatter(
-                        x=benches["bench_name"].loc[loc_n],
+                        x=benches["bench_name"].loc[loc_a][::-1],
                         y=benches[cat].loc[loc_n],
                         error_y=dict(
                             type="data",
