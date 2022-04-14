@@ -42,14 +42,38 @@ def plot():
                 go.Scatter(
                     x=benches["bench_name"].loc[loc_a],
                     y=benches[cat].loc[loc_a],
-                    error_y=dict(
-                        type="data",
-                        array=benches_err[cat].loc[loc_a],
-                    ),
-                    mode="markers",
-                    marker_color="rgb(255,127,14)",
+                    # error_y=dict(
+                    #     type="data",
+                    #     array=benches_err[cat].loc[loc_a],
+                    #     thickness=5,
+                    #     width=15,
+                    # ),
+                    mode="lines",
+                    # marker = dict(size = 15),
+                    # marker_color="rgb(255,127,14)",
+                    line=dict(color='rgb(255,127,14)'),
                     name="Arbor 1 GPU/node",
                 ),
+                go.Scatter(
+                    name='Upper Bound',
+                    x=benches["bench_name"].loc[loc_a],
+                    y=benches[cat].loc[loc_a]+benches_err[cat].loc[loc_a],
+                    mode='lines',
+                    marker=dict(color="#444"),
+                    line=dict(width=0),
+                    showlegend=False
+                ),
+                go.Scatter(
+                    name='Lower Bound',
+                    x=benches["bench_name"].loc[loc_a],
+                    y=benches[cat].loc[loc_a]-benches_err[cat].loc[loc_a][::-1],
+                    marker=dict(color="#444"),
+                    line=dict(width=0),
+                    mode='lines',
+                    fillcolor='rgba(255,127,14, 0.3)',
+                    fill='tonexty',
+                    showlegend=False
+                )
             ]
             + (
                 [
@@ -59,8 +83,11 @@ def plot():
                         error_y=dict(
                             type="data",
                             array=benches_err[cat].loc[loc_n],
+                            thickness=5,
+                            width=15,
                         ),
-                        mode="markers",
+                        mode="lines",
+                        marker = dict(size = 15),
                         marker_color="rgb(31, 119, 180)",
                         name="NEURON 36 CPU/node",
                     ),
