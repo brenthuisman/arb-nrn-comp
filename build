@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os, sys, warnings
+import os, sys, warnings, subprocess
 from types import ModuleType
 from importlib import import_module
 import traceback
@@ -79,5 +79,16 @@ def publish_layout(fig):
         yaxis_title_font=dict(size=45, family="Arial"),
     )
 
+def montage():
+    os.makedirs("figures_paper", exist_ok=True)
+    devnull = open(os.devnull, 'wb')
+    subprocess.check_call("montage figures/mechanisms.png figures/mech_features_kde_max.png figures/single_cell.png -tile 3x1 -geometry +0+0 figures_paper/mech.png",shell=False,stdout=devnull,stderr=devnull)
+    subprocess.check_call("montage figures/network_single_tts.png figures/network_single_spms.png figures/network_single_e.png -tile 3x1 -geometry +0+0 figures_paper/network_single.png",shell=True,stdout=devnull,stderr=devnull)
+    subprocess.check_call("montage figures/network_sock_tts.png figures/network_sock_spms.png figures/network_sock_e.png -tile 3x1 -geometry +0+0 figures_paper/network_sock.png",shell=True,stdout=devnull,stderr=devnull)
+    subprocess.check_call("montage figures/network_distr_tts.png figures/network_distr_spms.png figures/network_distr_e.png -tile 3x1 -geometry +0+0 figures_paper/network_distr.png",shell=True,stdout=devnull,stderr=devnull)
+    subprocess.check_call("montage figures/network_gpu_tts.png figures/network_gpu_spms.png figures/network_gpu_e.png -tile 3x1 -geometry +0+0 figures_paper/network_gpu.png",shell=True,stdout=devnull,stderr=devnull)
+    
+
 if __name__ == "__main__":
     build()
+    montage()
