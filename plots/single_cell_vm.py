@@ -23,8 +23,8 @@ def plot(run_locally=False):
         y_title="Vm (mV)",
         x_title="Time (ms)",
         specs=[
-            [{"l":0.03, "t": 0.03}, {"t": 0.03}],
-            [{"l":0.03, "b": 0.03}, {"b": 0.03}],
+            [{"l":0.03, "t": 0.03, "r": 0.05}, {"l": 0.05, "t": 0.03}],
+            [{"l":0.03, "b": 0.03, "r": 0.05}, {"l": 0.05, "b": 0.03}],
         ]
     )
     fig.update_layout(title="Single cell Vm")

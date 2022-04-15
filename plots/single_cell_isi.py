@@ -39,7 +39,7 @@ def plot(run_locally=False):
         if name == "GranuleCell":
             continue
         data = []
-        for l, s, dt, c in (("arbor", arb_v, 0.1, "255,127,14"), ("neuron", nrn_v, 0.025, "31,119,180")):
+        for l, s, dt, c in (("NEURON", nrn_v, 0.025, "31,119,180"), ("Arbor", arb_v, 0.1, "255,127,14")):
             s = np.array(s)
             p, props = find_peaks(s, height=-10)
             isi = np.diff(p) * dt
