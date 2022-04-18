@@ -365,9 +365,6 @@
         "glomerulus_to_granule": {
           "weight": 0.00001
         },
-        "golgi_to_glomerulus": {
-          "weight": 0.00001
-        },
         "glomerulus_to_golgi": {
           "weight": 0.00001
         },
