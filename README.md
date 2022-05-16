@@ -1,5 +1,14 @@
 Compares all DBBS models in Arbor and NEURON
 
+# Installation
+
+Clone this repository as `arb-nrn-comp` in your `$HOME` folder:
+
+```
+cd $HOME
+git clone git@github.com:Helveg/arb-nrn-comp
+```
+
 # Local plotting replication
 
 Following these steps allows you to plot the plots as seen in https://www.biorxiv.org/content/10.1101/2022.03.02.482285v1.full
