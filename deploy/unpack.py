@@ -87,7 +87,10 @@ for benchmark in benchmarks:
     net_file = net_folder / f"{benchmark.size}.hdf5"
     out_file = model_folder / f"{benchmark.name}.hdf5"
     print("Name:", benchmark.name)
-    print("Simulator:", benchmark.simulator)
+    if benchmark.simulator == "neuron" and benchmark.coreneuron:
+        print("Simulator:", "coreneuron")
+    else:
+        print("Simulator:", benchmark.simulator)
     print("GPU:", benchmark.gpu)
     if benchmark.distributed:
         print("Distr. scheme:")
