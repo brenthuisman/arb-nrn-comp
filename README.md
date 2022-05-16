@@ -40,14 +40,13 @@ A no warranty list of steps to reproduce the findings in https://www.biorxiv.org
 
 These steps work on PizDaint, which uses [`slurm`](https://slurm.schedmd.com/documentation.html) for job management and [`modules`](http://modules.sourceforge.net/) for environment management.
 
-## Setup
+## Setup Arbor
 
-1. Create separate environments for the Arbor and NEURON toolchains
+1. Create environment for the Arbor toolchain
 
 ```
 cd $HOME
 python -m venv arbenv
-python -m venv nrnenv
 ```
 
 2. Activate the Arbor venv:
@@ -106,36 +105,92 @@ cd $HOME
 
 You can now replicate Arbor instructions.
 
-5. Activate NEURON environment
+## Setup NEURON
+
+1. Create environment for the NEURON toolchain
+
+```
+cd $HOME
+python -m venv nrnenv
+```
+
+2. Activate NEURON environment
 
 ```
 source $HOME/nrnenv/bin/activate
 ```
 
-6. Clone tools
+3. Clone NEURON toolchain
 
 ```
 cd $HOME/nrnenv
-git clone git@github.com:Helveg/patch
-cd patch && git checkout 087a0188d8c9b4e06295dcf6362504cf81d8a414 && cd ..
+git clone git@github.com:dbbs-lab/arborize
+cd arborize && git checkout 0228676a16792421b0212de647526877d2fda451 && cd ..
+git clone git@github.com:dbbs-lab/bsb
+cd bsb && git checkout cc03ab7a57024980003de87427388a035832005c && cd ..
 git clone git@github.com:dbbs-lab/dbbs-mod-collection
 cd dbbs-mod-collection && git checkout c2fa5783d3d77786c23ec03978d15ad7e461398d && cd ..
+git clone git@github.com:dbbs-lab/glia
+cd glia && git checkout b93f0488ca1ab4df5f9464b6bf781b7ec4a31beb && cd ..
+git clone git@github.com:dbbs-lab/models
+cd models && git checkout d7255f2c837808a374d57811f1ec88ff08801fef && cd ..
+git clone git@github.com:Helveg/patch
+cd patch && git checkout 6b7bcf8f0bb0623ec00cce0f43e59733ab895bdc && cd ..
 ```
 
-7. Install tools
+4. Install the tools (in this order!)
 
 ```
-pip install -e $HOME/arbenv/bsb
-CC=cc CXX=CC pip install mpi4py NEURON==8.1 dbbs-models==1.5.0rc0 arborize==2.0.0b8
+CC=cc CXX=CC pip install mpi4py NEURON==8.1
+pip install -e bsb
+pip install -e models
 pip install -e dbbs-mod-collection
+pip install -e arborize
 pip install -e patch
 ```
 
-8. Every time you open a new session, run these commands:
+## Setup CoreNEURON
+
+1. Create environment for the CoreNEURON toolchain
 
 ```
-# This needs to point to the libmpich.so you want to use.
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/cray/pe/mpt/7.7.18/gni/mpich-crayclang/10.0/lib
+cd $HOME
+python -m venv corenrnenv
+```
+
+2. Activate CoreNEURON environment
+
+```
+source $HOME/corenrnenv/bin/activate
+```
+
+3. Clone CoreNEURON toolchain
+
+```
+cd $HOME/corenrnenv
+git clone git@github.com:dbbs-lab/arborize
+cd arborize && git checkout 0228676a16792421b0212de647526877d2fda451 && cd ..
+git clone git@github.com:dbbs-lab/bsb
+cd bsb && git checkout cc03ab7a57024980003de87427388a035832005c && cd ..
+git clone git@github.com:dbbs-lab/dbbs-mod-collection
+cd dbbs-mod-collection && git checkout bdd7a50d9c067b143f9a412c6ed03655b3de0898 && cd ..
+git clone git@github.com:dbbs-lab/glia
+cd glia && git checkout ae825e090046c479dfd515ce26aaa6be3d7d7a00 && cd ..
+git clone git@github.com:dbbs-lab/models
+cd models && git checkout fc8b00ceb2d6133817497ec52fbb92783dbd822c && cd ..
+git clone git@github.com:Helveg/patch
+cd patch && git checkout 6b7bcf8f0bb0623ec00cce0f43e59733ab895bdc && cd ..
+```
+
+4. Install the tools (in this order!)
+
+```
+CC=cc CXX=CC pip install mpi4py NEURON==8.1
+pip install -e bsb
+pip install -e models
+pip install -e dbbs-mod-collection
+pip install -e arborize
+pip install -e patch
 ```
 
 
@@ -144,14 +199,16 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/cray/pe/mpt/7.7.18/gni/mpich-craycl
 Before first use, run the deployment scripts to create all of the required network model files, configuration files and jobscripts.
 
 ```
+cd $HOME/arb-nrn-comp
 python deploy/unpack.py
 ```
 
 ## Benchmarks
 
-After deployment, any of the jobscripts can be queued manually by calling them directly with `sbatch`:
+After deployment, any of the jobscripts can be queued manually by calling them directly with `sbatch` (always run jobs from the `$SCRATCH` filesystem):
 
 ```
+cd $SCRATCH
 sbatch $HOME/arb-nrn-benchmarks-rdsea-2022/jobs/nrn_distr.sh
 ```
 
@@ -176,7 +233,7 @@ python $HOME/arb-nrn-comp/deploy/parse.py <batch_name> jobids.csv <log_dir>
 
 This will create a subfolder (named `batch_name`) in the `results` folder of the git repo,
 with the logs and a `jobs.csv` file with the results. You can then move `jobs.csv` to the root
-of the repo to overwrite the results. The logs need to be located in `<log_dir>`.
+of the repo to overwrite the results. The logs need to be located in `<log_dir>` (usually `$SCRATCH`).
 
 ### Reproduction
 
