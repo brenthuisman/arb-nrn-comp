@@ -49,10 +49,6 @@ class Benchmark:
             replace = [line[3:] for line in lines[start + 1 : end]]
         else:
             replace = []
-        print("PARSING:")
-        print("\n".join(lines[start:end]))
-        print("INTO:")
-        print("\n".join(replace))
         return start, end, replace
 
 
