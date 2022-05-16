@@ -14,8 +14,8 @@ git clone git@github.com:Helveg/arb-nrn-comp
 For easy deployment on PizDaint, set the following env vars (in `.bashrc` for example):
 
 ```
-export CPU_ACCOUNT="ich027"
-export GPU_ACCOUNT="d98"
+export CPU_ACCOUNT="my-account-with-access-to-mc"
+export GPU_ACCOUNT="my-account-with-access-to-gpu"
 ```
 
 # Local plotting replication
