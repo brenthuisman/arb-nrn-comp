@@ -20,6 +20,7 @@ class Benchmark:
         if self.nodes is None:
             self.nodes = 20 if self.distributed else 1
         self.constraint = "gpu" if self.gpu else "mc"
+        self.coreneuron = "cnrn" in self.name
         if "ACCOUNT" in os.environ:
             self.account = os.environ["ACCOUNT"]
         elif self.gpu:
@@ -56,6 +57,11 @@ benchmarks = [
     Benchmark("nrn_small", False, 1, 1, False),
     Benchmark("nrn_sock", False, 18, 1, False),
     Benchmark("nrn_distr", True, 36, 1, False),
+    Benchmark("cnrn_small", False, 1, 1, False),
+    Benchmark("cnrn_small_mpi", False, 36, 1, False),
+    Benchmark("cnrn_small_mt", False, 1, 36, False),
+    Benchmark("cnrn_small_gpu", False, 1, 12, True),
+    Benchmark("cnrn_distr", True, 36, 1, False),
 ]
 
 root_folder = Path(__file__).parent.parent

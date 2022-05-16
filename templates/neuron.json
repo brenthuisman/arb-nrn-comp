@@ -333,6 +333,8 @@
       "resolution": 0.025,
       "duration": 1000,
       "temperature": 32,
+      "coreneuron": @@coreneuron@@,
+      "gpu": @@gpu@@,
       "cell_models": {
         "glomerulus": {
           "relay": true
