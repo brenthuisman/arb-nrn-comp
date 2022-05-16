@@ -31,7 +31,31 @@ class Benchmark:
     def fill_in(self, content):
         for k, v in vars(self).items():
             content = content.replace(f"@@{k}@@", str(v).lower())
-        return content
+        content_lines = content.split("\n")
+        parsed_ifs = []
+        for i, line in enumerate(content_lines):
+            if line.startswith("## if:"):
+                parsed_ifs.append(self.parse_if(content_lines, i))
+        for start, end, replace in reversed(parsed_ifs):
+            content_lines[start:end] = replace
+        return "\n".join(content_lines)
+
+    def parse_if(self, lines, start):
+        end = next(
+            i for i in range(start + 1, len(lines))
+            if lines[i].startswith("## if:") or not lines[i].startswith("## ")
+        )
+        if bool(eval(lines[start][6:], self.__dict__)):
+            replace = [line[3:] for line in lines[start + 1 : end]]
+        else:
+            replace = []
+        print("PARSING:")
+        print("\n".join(lines[start:end]))
+        print("INTO:")
+        print("\n".join(replace))
+        return start, end, replace
+
+
 
 benchmarks = [
     Benchmark("arb_small_st", False, 1, 1, False),
