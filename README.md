@@ -208,6 +208,7 @@ pip install -e bsb
 pip install -e models
 pip install -e dbbs-mod-collection
 pip install -e arborize
+pip install -e glia
 pip install -e patch
 ```
 
