@@ -189,7 +189,7 @@ cd $HOME/corenrnenv
 git clone git@github.com:dbbs-lab/arborize
 cd arborize && git checkout 0228676a16792421b0212de647526877d2fda451 && cd ..
 git clone git@github.com:dbbs-lab/bsb
-cd bsb && git checkout cc03ab7a57024980003de87427388a035832005c && cd ..
+cd bsb && git checkout f702978eb38aece5b9d6e0ad54e133a977247541 && cd ..
 git clone git@github.com:dbbs-lab/dbbs-mod-collection
 cd dbbs-mod-collection && git checkout bdd7a50d9c067b143f9a412c6ed03655b3de0898 && cd ..
 git clone git@github.com:dbbs-lab/glia
