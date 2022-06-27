@@ -187,7 +187,7 @@ source $HOME/corenrnenv/bin/activate
 ```
 cd $HOME/corenrnenv
 git clone git@github.com:dbbs-lab/arborize
-cd arborize && git checkout 0228676a16792421b0212de647526877d2fda451 && cd ..
+cd arborize && git checkout 9ad43718fd9e551ea451b424ed9423e306a9ae54 && cd ..
 git clone git@github.com:dbbs-lab/bsb
 cd bsb && git checkout f702978eb38aece5b9d6e0ad54e133a977247541 && cd ..
 git clone git@github.com:dbbs-lab/dbbs-mod-collection
