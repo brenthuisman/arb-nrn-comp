@@ -37,13 +37,17 @@ def plot():
     return {
         cat: go.Figure(
             data=[
-                go.Bar(
+                go.Scatter(
                     x=benches["bench_name"].loc[6:9],
                     y=benches[cat].loc[6:9],
                     error_y=dict(
                         type="data",
                         array=benches_err[cat].loc[6:9],
+                        thickness=5,
+                        width=15,
                     ),
+                    mode="markers",
+                    marker = dict(size = 15),
                     marker_color=[
                         "rgb(31, 119, 180)",
                         "rgb(255,127,14)",
@@ -56,6 +60,7 @@ def plot():
                 barmode="group",
                 yaxis_title=title,
                 yaxis_type="log",
+                yaxis_rangemode="tozero",
                 xaxis_tickangle=30,
             ),
         )

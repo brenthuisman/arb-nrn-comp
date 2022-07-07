@@ -3,7 +3,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-
 def plot():
     job_data = pd.read_csv("jobs.csv")
     benches = job_data.groupby(["bench_id"]).agg(
@@ -39,28 +38,47 @@ def plot():
     return {
         cat: go.Figure(
             data=[
-                go.Bar(
+                go.Scatter(
                     x=benches["bench_name"].loc[loc_a],
                     y=benches[cat].loc[loc_a],
                     error_y=dict(
                         type="data",
                         array=benches_err[cat].loc[loc_a],
+                        thickness=5,
+                        width=15,
                     ),
-                    width=0.8,
-                    marker_color="rgb(255,127,14)",
+                    mode="lines",
+                    # marker = dict(size = 15),
+                    # marker_color="rgb(255,127,14)",
+                    line=dict(color='rgb(255,127,14)'),
                     name="Arbor 1 GPU/node",
+                ),
+                go.Scatter(
+                    name='Arbor expected linearity',
+                    x=benches["bench_name"].loc[loc_a],
+                    # T(n)=α+β/n
+                    # α = 2 T2 - T1
+                    # β = 2 (T1 - T2)
+                    y = ( 2*np.array(benches[cat].loc[loc_a]).astype(float)[1]-np.array(benches[cat].loc[loc_a]).astype(float)[0] )
+                        + 2*( np.array(benches[cat].loc[loc_a]).astype(float)[0] - np.array(benches[cat].loc[loc_a]).astype(float)[1] )
+                        / np.array(benches["bench_name"].loc[loc_a]).astype(float),
+                    mode='lines',
+                    line_color="black"
                 ),
             ]
             + (
                 [
-                    go.Bar(
-                        x=benches["bench_name"].loc[loc_n],
+                    go.Scatter(
+                        x=benches["bench_name"].loc[loc_a][::-1],
                         y=benches[cat].loc[loc_n],
                         error_y=dict(
                             type="data",
                             array=benches_err[cat].loc[loc_n],
+                            thickness=5,
+                            width=15,
                         ),
-                        width=0.8,
+                        mode="lines",
+                        marker = dict(size = 15),
                         marker_color="rgb(31, 119, 180)",
                         name="NEURON 36 CPU/node",
                     ),

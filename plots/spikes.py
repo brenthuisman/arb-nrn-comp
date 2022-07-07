@@ -2,9 +2,10 @@ import h5py
 import numpy as np
 from bsb.plotting import hdf5_plot_spike_raster
 import itertools
+from plotly.subplots import make_subplots
 
 def plot():
-    with h5py.File("results/results_arbenv.hdf5", "a") as f, h5py.File("results/results_nrn_fixed.hdf5", "r") as g:
+    with h5py.File("results/results_arbenv.hdf5", "a") as f, h5py.File("results/results_nrnenv.hdf5", "r") as g:
         f.require_group("recorders/deduped")
         del f["recorders/deduped"]
         f.require_group("recorders/deduped")
@@ -32,6 +33,16 @@ def plot():
             print(f" *{k}:", np.mean(v), "std", np.std(v))
         nrn = hdf5_plot_spike_raster(g["recorders/soma_spikes"], show=False)
         arb = hdf5_plot_spike_raster(f["recorders/deduped"], show=False)
+        fig = make_subplots(rows=2, cols=1, subplot_titles=("Arbor", "NEURON"))
         for dat in itertools.chain(nrn.data, arb.data):
             dat.marker.size = 2
-        return {"nrn": nrn, "arb": arb}
+        for datum in arb.data:
+            fig.add_trace(datum, row=1, col=1)
+        for datum in nrn.data:
+            fig.add_trace(datum, row=2, col=1)
+        fig.update_layout(
+            xaxis_title="Time (ms)",
+            yaxis_title="Cell (ID)",
+            title_text="Raster plot"
+        )
+        return fig
