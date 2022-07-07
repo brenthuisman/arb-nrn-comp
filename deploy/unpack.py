@@ -3,6 +3,7 @@ import shutil
 from pathlib import Path
 from h5py import File
 from dataclasses import dataclass, field
+import typing
 
 @dataclass
 class Benchmark:
@@ -13,7 +14,7 @@ class Benchmark:
     gpu: bool
     time: str = "10:00:00"
     nodes: int = None
-    srun_args: List[str] = field(default_factory=list)
+    srun_args: typing.List[str] = field(default_factory=list)
 
     def __post_init__(self):
         self.simulator = "neuron" if "nrn_" in self.name else "arbor"
