@@ -30,7 +30,7 @@ class Benchmark:
         else:
             self.account = os.environ["CPU_ACCOUNT"]
         if self.srun_args:
-            self.srun_argstr = " " + " ".join(f"{arg}" for arg in srun_args)
+            self.srun_argstr = " " + " ".join(f"{arg}" for arg in self.srun_args)
         else:
             self.srun_argstr = ""
 
