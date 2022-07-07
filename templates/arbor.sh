@@ -17,4 +17,4 @@ module load gcc/9.3.0
 module load cudatoolkit
 module load PrgEnv-gnu
 
-srun bsb -v 4 simulate @@name@@ --hdf5=$HOME/arb-nrn-benchmarks-rdsea-2022/models/@@name@@.hdf5
+srun@@srun_argstr@@ bsb -v 4 simulate @@name@@ --hdf5=$HOME/arb-nrn-benchmarks-rdsea-2022/models/@@name@@.hdf5

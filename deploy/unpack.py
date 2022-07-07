@@ -2,7 +2,7 @@ import os
 import shutil
 from pathlib import Path
 from h5py import File
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 @dataclass
 class Benchmark:
@@ -13,6 +13,7 @@ class Benchmark:
     gpu: bool
     time: str = "10:00:00"
     nodes: int = None
+    srun_args: List[str] = field(default_factory=list)
 
     def __post_init__(self):
         self.simulator = "neuron" if "nrn_" in self.name else "arbor"
@@ -27,6 +28,10 @@ class Benchmark:
             self.account = os.environ["GPU_ACCOUNT"]
         else:
             self.account = os.environ["CPU_ACCOUNT"]
+        if self.srun_args:
+            self.srun_argstr = " " + " ".join(f"{arg}" for arg in srun_args)
+        else:
+            self.srun_argstr = ""
 
     def fill_in(self, content):
         for k, v in vars(self).items():
@@ -75,7 +80,10 @@ benchmarks = [
     Benchmark("arb_gpu_1", True, 2, 12, True, nodes=1),
 
     Benchmark("nrn_small", False, 1, 1, False),
-    Benchmark("nrn_sock", False, 18, 1, False),
+    Benchmark("nrn_small", False, 1, 1, False),
+    Benchmark("nrn_small_mpi", False, 36, 1, False),
+    Benchmark("nrn_small_hmpi", False, 72, 1, False, srun_args=["--oversubscribe"]),
+    Benchmark("nrn_small_sock", False, 18, 1, False),
     Benchmark("nrn_distr", True, 36, 1, False),
     Benchmark("cnrn_small", False, 1, 1, False),
     Benchmark("cnrn_small_mpi", False, 36, 1, False),
