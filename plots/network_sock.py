@@ -27,8 +27,6 @@ def plot():
             "nh": "std",
         }
     )
-    benches["tts"] *= 10
-    benches_err["tts"] *= 10
     benches.loc[13:14, "bench_name"] = ("Arbor", "NEURON")
     spacebar = (0, 6, 9, 10, 15)
     return {

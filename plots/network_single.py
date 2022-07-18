@@ -26,8 +26,6 @@ def plot():
             "nh": "std",
         }
     )
-    benches["tts"] *= 10
-    benches_err["tts"] *= 10
     benches.loc[1:5, "bench_name"] = (
         "NEURON",
         "Arb. single",
