@@ -53,6 +53,7 @@ def plot(run_locally=False):
                 ),
             )
         fig.add_traces(data, rows=1, cols=ctr + 1)
+        fig.update_xaxes(range=[0, len(isi) -0.8], row=1, col=ctr + 1)
         ctr += 1
         figs[name] = go.Figure(
             data=data,

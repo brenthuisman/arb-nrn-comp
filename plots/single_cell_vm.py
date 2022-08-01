@@ -55,7 +55,7 @@ def plot(run_locally=False):
         )
         ctr += 1
 
-    # fig.update_yaxes(range=[-75, 55])
+    fig.update_xaxes(range=[400, 600])
     # for i in range(2, 5):
     #     fig.update_yaxes(showticklabels=False, row=1, col=i)
 
