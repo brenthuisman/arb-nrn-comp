@@ -10,14 +10,15 @@ def plot():
         del f["recorders/deduped"]
         f.require_group("recorders/deduped")
         avg_arb = {}
-        for spikes in f["recorders/soma_spikes"].values():
-            # Accidentally, the spikes of each synapse instead of just the soma were recorded,
-            # meaning that all along the axon, duplicated spikes with slightly different times
-            # are recorded; so we remove all duplicates that occur in rapid succession of
-            # eachother.
-            nondupes = np.diff(np.sort(spikes)) > 1
+        for k, spikes in f["recorders/soma_spikes"].items():
+            # The spikes of each synapse were recorded instead of just the soma. This
+            # means that all along the axon, duplicated spikes with slightly different
+            # times are recorded; so we remove all duplicates that occur in rapid
+            # succession of eachother.
+            sort_order = np.argsort(spikes[()])
+            nondupes = np.diff(spikes[()][sort_order]) > 3
             # Super optimized numpy code, please copy paste to all your own projects.
-            ns = np.concatenate(([spikes[0]], spikes[1:][nondupes]))
+            ns = np.concatenate(([spikes[sort_order[0]]], spikes[()][sort_order[np.nonzero(nondupes)[0] + 1]]))
             avg_arb.setdefault(spikes.attrs["display_label"], []).append(len(ns))
             ds = f["recorders/deduped"].create_dataset(str(spikes.attrs['cell_id']), data=ns)
             for k,v in spikes.attrs.items():
