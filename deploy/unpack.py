@@ -64,7 +64,7 @@ benchmarks = [
     Benchmark("arb_small_mpi", False, 36, 1, False),
     Benchmark("arb_small_mt", False, 1, 36, False),
     Benchmark("arb_small_ht", False, 1, 72, False),
-    Benchmark("arb_small_gpu", False, 1, 12, True),
+    Benchmark("arb_small_gpu", False, 1, 1, True),
     Benchmark("arb_small_sock", False, 1, 18, True),
 
     Benchmark("arb_distr_mpi", True, 36, 1, False),
