@@ -19,7 +19,7 @@ for line, row in ids.iterrows():
     print(row)
     id, name, err = row
     with open(log_dir / f"slurm-{id}.out", "r") as f:
-        log = f.read()
+        log = f.readlines()
     tms = [l for l in log if l.startswith("Simulated ")][-1]
     dline = next((i for i, l in enumerate(log) if l == "Job information (1/3)"), None)
     eline = next((i for i, l in enumerate(log) if l == "Job information (2/3)"), None)
