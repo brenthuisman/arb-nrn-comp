@@ -15,7 +15,7 @@ home = pathlib.Path(os.getenv("HOME"))
 batch_dir = home / "results" / name
 batch_dir.mkdir(parents=True, exist_ok=False)
 
-for row in ids.iterrows():
+for line, row in ids.iterrows():
     print(row)
     id, name, err = row
     with open(log_dir / f"slurm-{id}.out", "r") as f:
