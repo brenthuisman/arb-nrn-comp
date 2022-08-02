@@ -1,11 +1,12 @@
 import os
 import sys
 import pathlib
+import pandas as pd
 
 args = sys.argv[1:]
 name = args[0]
 ids_path = pathlib.Path(args[1]).parent
-ids = pandas.read_csv(args[1])
+ids = pd.read_csv(args[1])
 if len(args) > 2:
     log_dir = pathlib.Path(args[2])
 else:
