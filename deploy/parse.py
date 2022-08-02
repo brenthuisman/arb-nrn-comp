@@ -21,6 +21,6 @@ for line, row in ids.iterrows():
     with open(log_dir / f"slurm-{id}.out", "r") as f:
         log = f.readlines()
     tms = [l for l in log if l.startswith("Simulated ")][-1]
-    dline = next((i for i, l in enumerate(log) if l == "Job information (1/3)"), None)
-    eline = next((i for i, l in enumerate(log) if l == "Job information (2/3)"), None)
+    dline = next((i + 2 for i, l in enumerate(log) if print(l) or l == "Job information (1/3)"), None)
+    eline = next((i + 2 for i, l in enumerate(log) if l == "Job information (2/3)"), None)
     print(tms, dline, eline)
