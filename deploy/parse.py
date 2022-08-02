@@ -56,4 +56,4 @@ with open(batch_dir / "jobs.csv", "w") as f:
 for line, row in ids.iterrows():
     shutil.move(log_dir / f"slurm-{row[0]}.out", batch_dir)
 
-print(len(ids), "logfiles parsed and moved to '{batch_dir}'")
+print(len(ids), f"logfiles parsed and moved to '{batch_dir}'")
