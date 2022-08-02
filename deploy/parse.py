@@ -45,7 +45,7 @@ for line, row in ids.iterrows():
         to_sec = lambda ts: sum(int(x) * 60 ** i for i, x in enumerate(reversed(ts.split(':'))))
         tts = to_sec([l for l in log[dline][:-1].split(" ") if l][-2])
         e = float([l for l in log[eline][:-1].split(" ") if l][-2])
-        out.append([id, name, bench.id, bench.nodes, tts, spms, e, bench.nodes * tts / 3600])
+        out.append([id, name, bench.id, bench.nodes, tts, spms, e, bench.nodes * tts / 3600, ""])
     else:
         print(id, "errored")
 
