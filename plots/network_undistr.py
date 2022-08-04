@@ -26,12 +26,13 @@ def plot():
             "nh": "std",
         }
     )
-    col_ids = [1, 14, 19, 2, 13, 3, 4, 5]
+    col_ids = [1, 14, 19, 2, 28, 13, 3, 4, 5]
     benches.loc[col_ids, "bench_name"] = (
         "NEURON 1-thread",
-        "NEURON 18-thread",
-        "NEURON 36-thread",
+        "NEURON 18-task",
+        "NEURON 36-task",
         "Arbor 1-thread",
+        "Arbor 36-task",
         "Arbor 18-thread",
         "Arbor 36-thread",
         "Arbor 72-thread",
@@ -48,13 +49,6 @@ def plot():
                         array=benches_err[cat].loc[col_ids],
                         thickness=5,
                         width=15,
-                        # color=[ #terrible plotly does not let you set colors per datapoints
-                        #     "rgb(31, 119, 180)",
-                        #     "rgb(255,127,14)",
-                        #     "rgb(255,127,14)",
-                        #     "rgb(255,127,14)",
-                        #     "rgb(255,127,14)",
-                        # ],
                     ),
                     mode="markers",
                     marker = dict(size = 15),
