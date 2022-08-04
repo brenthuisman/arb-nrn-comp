@@ -37,8 +37,8 @@ for line, row in ids.iterrows():
         logged = False
     else:
         logged = True
-    dline = next((i + 4 for i, l in enumerate(log) if l == "Job information (1/3)\n"), None)
-    eline = next((i + 4 for i, l in enumerate(log) if l == "Job information (2/3)\n"), None)
+    dline = next((i + 4 for i, l in enumerate(log) if l.startswith("Job information (1/")), None)
+    eline = next((i + 4 for i, l in enumerate(log) if l.startswith("Job information (2/")), None)
     tail = not (dline is None or eline is None)
     if logged and tail:
         spms = float(float_pat.search(tms.split("tick")[-1])[0])
