@@ -3,7 +3,7 @@ from bsb.config import get_result_config
 from functools import reduce
 
 with h5py.File("results/results_arbenv.hdf5", "a") as f, h5py.File(
-    "results/results_nrn_fixed.hdf5", "r"
+    "results/results_nrnenv.hdf5", "r"
 ) as g:
     for k, v in g.attrs.items():
         f.attrs[k] = v

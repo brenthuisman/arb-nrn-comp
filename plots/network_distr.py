@@ -29,10 +29,10 @@ def plot():
     )
     benches_err["e"] = benches_err["e"] / 1000
     benches.loc[6:9, "bench_name"] = (
-        "NEURON",
-        "Arb. MPI",
-        "Arb. multithr.",
-        "Arb. hyperthr.",
+        "NEURON 36 task",
+        "Arbor 36 task",
+        "Arbor 2-task-18-thread",
+        "Arbor 2-task-36-thread",
     )
     return {
         cat: go.Figure(

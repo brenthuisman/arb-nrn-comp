@@ -22,15 +22,12 @@ def plot(run_locally=False):
 
     figs = {}
     fig = make_subplots(
-        rows=2,
-        cols=2,
+        rows=1,
+        cols=4,
         subplot_titles=("Stellate cell", "Basket cell", "Golgi cell", "Purkinje cell"),
         x_title="Spike pair",
         y_title="Interspike interval (ms)",
-        specs=[
-            [{"l":0.03, "t": 0.03}, {"t": 0.03}],
-            [{"l":0.03, "b": 0.03}, {"b": 0.03}],
-        ]
+        specs=[[{"l": 0.01, "b": 0.05}, {"b": 0.05}, {"b": 0.05}, {"b": 0.05}]]
     )
     fig.update_layout(title="Single cell ISI")
     fig.update_annotations(font_size=35)
@@ -55,7 +52,8 @@ def plot(run_locally=False):
                     showlegend=not ctr
                 ),
             )
-        fig.add_traces(data, rows=(ctr // 2) + 1, cols=(ctr % 2) + 1)
+        fig.add_traces(data, rows=1, cols=ctr + 1)
+        fig.update_xaxes(range=[0, len(isi) -0.8], row=1, col=ctr + 1)
         ctr += 1
         figs[name] = go.Figure(
             data=data,
@@ -67,4 +65,10 @@ def plot(run_locally=False):
             ),
         )
 
+    # fig.update_yaxes(range=[20, 90])
+    # fig.update_xaxes(range=[0, 30])
+
     return fig
+
+def meta():
+    return {"width": 700 * 4, "height": 800}

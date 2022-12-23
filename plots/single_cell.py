@@ -26,23 +26,23 @@ def plot(run_locally=False):
         data=[
             go.Scatter(
                 x=clabels,
-                y=[np.mean(data[cname]) / 10 for cname in cnames],
+                y=[np.mean(nrn_data[cname]) / np.mean(arb_data[cname]) for cname in cnames],
                 error_y=dict(
                     type="data",
-                    array=[np.std(data[cname]) / 10 for cname in cnames],
+                    array=[np.sqrt((np.mean(nrn_data[cname]) ** 2 / np.mean(arb_data[cname]) ** 2) * (np.var(nrn_data[cname]) ** 2 / np.mean(nrn_data[cname]) ** 2 + np.var(arb_data[cname]) ** 2 / np.mean(arb_data[cname]) ** 2)) for cname in cnames],
                     thickness=5,
                     width=15,
                 ),
+                marker=dict(color=f'rgb(255,127,14)', size=15),
                 mode="markers",
-                marker = dict(size = 15),
-                name=sim,
+                name="Speedup",
             )
-            for sim, data in zip(("NEURON", "Arbor"), (nrn_data, arb_data))
         ],
         layout=dict(
             barmode="group",
             xaxis_title="Cell type",
-            yaxis_title="Timestep duration (s<sub>wall</sub>/ms<sub>bio</sub>)",
+            yaxis_title="Speedup factor",
+            yaxis_rangemode="tozero",
             xaxis_tickangle=15,
             legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.70),
         ),

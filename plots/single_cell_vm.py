@@ -17,15 +17,12 @@ def plot(run_locally=False):
     with open("nrn_sc.pkl", "rb") as f:
         nrn_data = pickle.load(f)
     fig = go.Figure().set_subplots(
-        rows=2,
-        cols=2,
+        rows=1,
+        cols=4,
         subplot_titles=("Stellate cell", "Basket cell", "Golgi cell", "Purkinje cell"),
         y_title="Vm (mV)",
         x_title="Time (ms)",
-        specs=[
-            [{"l":0.03, "t": 0.03, "r": 0.05}, {"l": 0.05, "t": 0.03}],
-            [{"l":0.03, "b": 0.03, "r": 0.05}, {"l": 0.05, "b": 0.03}],
-        ]
+        specs=[[{"l": 0.01, "b": 0.05}, {"b": 0.05}, {"b": 0.05}, {"b": 0.05}]]
     )
     fig.update_layout(title="Single cell Vm")
     fig.update_annotations(font_size=35)
@@ -54,8 +51,15 @@ def plot(run_locally=False):
                     showlegend=not ctr
                 ),
             ],
-            rows=(ctr // 2) + 1, cols=(ctr % 2) + 1
+            rows=1, cols=ctr + 1
         )
         ctr += 1
 
+    fig.update_xaxes(range=[400, 600])
+    # for i in range(2, 5):
+    #     fig.update_yaxes(showticklabels=False, row=1, col=i)
+
     return fig
+
+def meta():
+    return {"width": 700 * 4, "height": 800}
